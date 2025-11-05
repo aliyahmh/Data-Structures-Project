@@ -23,34 +23,56 @@ public class Order {
         status = "pending";
         totalPrice = 0;
         products = new LinkedList<>();
-
     }
 
 
-    public Order createOrder(String orderId, Customer customer, String orderDate){
+    public void addProduct(Product p){
+        products.add(p);
+        totalPrice += p.getPrice();
+    }
+
+    pub
+
+
+
+
+
+    /*public Order placeOrder(String orderId, Customer customer, String orderDate){ // check
         if (findOrderById(orderId) == null){
             Order o = new Order(orderId, customer, orderDate);
             orders.add(o);
             pendingOrders.add(o);
+
+
             System.out.println("order No. "+orderId+" was successfully created!");
             return o;
+
+            //products?? add product list to parameters? or create a seperate method for adding?
         }
         else {
             System.out.println("An order with this ID already exists.");
             return null ;
         }
 
-    }
+    }*/
 
 
-    
+
+        
     /*public Order findOrderById(String id){
 
 
 
     }*/
 
+    /*public void updateStatus(Order order,){
+     
+    } */
 
+
+    /*public void cancelOrder(Order order){
+     
+    } */
 
 
 
