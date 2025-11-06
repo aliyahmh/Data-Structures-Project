@@ -103,7 +103,7 @@ public class Review {
         }
 
         if (found == null) {
-            System.out.println("❌ Review not found!");
+            System.out.println(" Review not found!");
             return;
         }
 
@@ -133,10 +133,10 @@ public class Review {
                 break;
 
             default:
-                System.out.println("❌ Invalid choice!");
+                System.out.println(" Invalid choice!");
         }
 
-        System.out.println("✅ Review updated!");
+        System.out.println(" Review updated!");
     }
 
     // Check Review ID
@@ -157,7 +157,7 @@ public class Review {
     // Get Average Rating for a Product
     public static double getAverageRatingForProduct(String productId) {
         if (reviews.empty()) {
-            System.out.println("⚠️ No reviews available!");
+            System.out.println(" No reviews available!");
             return 0.0;
         }
 
