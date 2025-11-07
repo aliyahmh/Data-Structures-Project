@@ -21,14 +21,15 @@ public class Customer {
    //-----------methods------------//
    
    //*****Place new order for customer*****//
-   
-   public void placeOrder (Order order){
-       if(order != null && order.getCustomerID().equals(this.customerid)) {
-        ordersList.insert(order);
-       } else {
-            System.out.println("Order does not belong to this customer.");
-       }
-   }
+
+    public void placeOrder(Order order) {
+        if (order != null && order.getCustomerID().equals(this.customerid)) {
+            ordersList.insert(order);
+            System.out.println("Order " + order.getOrderID() + " placed successfully for customer " + this.name);
+        } else {
+            System.out.println("Order does not belong to this customer or is invalid.");
+        }
+    }
    
    //*****View order history*****//
    
