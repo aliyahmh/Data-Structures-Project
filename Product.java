@@ -219,17 +219,23 @@ public class Product {
 //            *********************************************************
 // check dublicate id 
     public static boolean checkProductID(String id) {
-        if (products.empty())
-         return false;
-
-        products.findFirst();
-        while (true) {
-            if (products.retrieve().getProductId().equals(id)) return true;
-            if (products.last()) break;
-            products.findNext();
-        }
+    if (products == null || products.empty()) {
         return false;
     }
+
+    products.findFirst();
+    while (true) {
+        if (products.retrieve().getProductId().equalsIgnoreCase(id)) {
+            return true;
+        }
+        if (products.last()) break;
+        products.findNext();
+    }
+
+    return false;
+}
+
+
 
 //            *********************************************************
     public static void displayAllProducts() {

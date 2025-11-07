@@ -157,7 +157,6 @@ public class Review {
     // Get Average Rating for a Product
     public static double getAverageRatingForProduct(String productId) {
         if (reviews.empty()) {
-            System.out.println(" No reviews available!");
             return 0.0;
         }
 
@@ -177,12 +176,10 @@ public class Review {
         }
 
         if (count == 0) {
-            System.out.println(" No reviews found for product " + productId);
             return 0.0;
         }
 
         double average = sum / count;
-        System.out.println("Average rating for product " + productId + " = " + average);
         return average;
     }
 
@@ -282,6 +279,9 @@ public static void showReviewsByCustomer() {
     }
 }
 
+
+
+
  public static void showTop3Products(DoubleLinkedList<Product> products) {
     if (products.empty() || reviews.empty()) {
         System.out.println(" No products or reviews available!");
@@ -295,8 +295,10 @@ public static void showReviewsByCustomer() {
     while (pNode != null) {
         Product p = pNode.data;
         double avg = getAverageRatingForProduct(p.getProductId());
+            if (avg > 0) {
         sortedList.insert(p);
         avgRatings.insert(avg);
+        }
         pNode = pNode.next;
     }
 
