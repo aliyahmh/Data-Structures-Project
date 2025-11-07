@@ -93,7 +93,7 @@ public class Order {
             System.out.println("Cannot cancel order. Current status: " + order.getStatus());
             return;
         }
-        
+   
         // Change order status to cancelled
         order.setStatus("Cancelled");
         
@@ -114,6 +114,8 @@ public class Order {
         System.out.println("Stock has been updated for all products in the order.");
     }
 
+
+    
 
     public static void updateOrderStatus() {
         System.out.print("Enter Order ID: ");

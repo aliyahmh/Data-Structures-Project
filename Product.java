@@ -12,7 +12,6 @@ public class Product {
 
 //-------------------List of product from csvReader---------------
     private static DoubleLinkedList<Product> products;
-
     private static Scanner input = new Scanner(System.in);
 
     //------------------------ Constructors ------------------------
@@ -50,7 +49,7 @@ public class Product {
          return reviews; }
 
     //------------------------ Reviews Operations ------------------------
-//---------add new riv-----
+    //---------add new riv-----
     public void addReview(Review r) {
         reviews.insert(r);
     }
@@ -126,7 +125,7 @@ public class Product {
 
         Product p = searchById(id);
         if (p == null) {
-            System.out.println("❌ Product not found!");
+            System.out.println("Product not found!");
             return;
         }
 
@@ -246,6 +245,10 @@ public class Product {
             products.findNext();
         }
     }
+
+
+   
+
 
 //            *********************************************************
     @Override

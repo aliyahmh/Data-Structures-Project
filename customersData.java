@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @author Manal Alhihi
  * 
  */
-public class customersData {
+/* public class customersData {
     
     public static Scanner input = new Scanner (System.in);
     public static LinkedList<Customer> customers = new LinkedList<Customer> ();
@@ -158,3 +158,4 @@ public void OrderHistory()
         return null;
     }
 }
+    */
