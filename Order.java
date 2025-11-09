@@ -1,4 +1,6 @@
 import java.util.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class Order {
     private String orderID;
@@ -93,7 +95,7 @@ public class Order {
             System.out.println("Cannot cancel order. Current status: " + order.getStatus());
             return;
         }
-   
+        
         // Change order status to cancelled
         order.setStatus("Cancelled");
         
@@ -114,8 +116,6 @@ public class Order {
         System.out.println("Stock has been updated for all products in the order.");
     }
 
-
-    
 
     public static void updateOrderStatus() {
         System.out.print("Enter Order ID: ");
@@ -279,10 +279,79 @@ public class Order {
 
     public static DoubleLinkedList<Order> getOrdersBetweenDates(String startDate, String endDate) {
         DoubleLinkedList<Order> result = new DoubleLinkedList<>();
+
+
+
+    try {
+        LocalDate start = LocalDate.parse(startDate); // used it for easier validation
+        LocalDate end = LocalDate.parse(endDate);
         
-        if (allOrders.isEmpty()) {
+        if (start.isAfter(end)) {
+            System.out.println("Error: Start date must be before end date.");
             return result;
         }
+        
+        
+        Node<Order> current = allOrders.getHead();
+        while (current != null) {
+            Order order = current.data;
+            String orderDateStr = order.getOrderDate();
+            
+            if (orderDateStr != null) {
+                try {
+                    LocalDate orderDate = LocalDate.parse(orderDateStr);
+                    if (!orderDate.isBefore(start) && !orderDate.isAfter(end)) {
+                        result.insert(order);
+                    }
+                } catch (DateTimeParseException e) {
+                    // skip orders with invalid dates
+                }
+            }
+            current = current.next;
+        }
+        
+    } catch (DateTimeParseException e) {
+        System.out.println("Error: Invalid date format. Use YYYY-MM-DD (e.g., 2025-01-15).");
+        return result;
+    }
+    
+    return result;
+        
+
+
+
+
+        /*if (allOrders.isEmpty()) {
+            System.out.println("No orders available.");
+            return result;
+        }
+
+        if (startDate == null || endDate == null || startDate == "" || endDate == "") {
+            System.out.println("Error: Dates cannot be empty.");
+            return result;
+        }
+
+
+
+        // format checking
+        if (startDate.length() != 10 || !startDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            System.out.println("Error: Invalid start date format. Use YYYY-MM-DD.");
+            return result;
+        }
+        
+        if (endDate.length() != 10 || !endDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            System.out.println("Error: Invalid end date format. Use YYYY-MM-DD.");
+            return result;
+        }
+        
+        // Check if start date is before end date
+        if (startDate.compareTo(endDate) > 0) {
+            System.out.println("Error: Start date must be before end date.");
+            return result;
+        }
+
+
+
         
         Node<Order> current = allOrders.getHead();
         while (current != null) {
@@ -294,7 +363,7 @@ public class Order {
             current = current.next;
         }
         
-        return result;
+        return result; */
     }
 
 

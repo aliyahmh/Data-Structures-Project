@@ -1,4 +1,4 @@
-public class Queue<T> {
+/* public class Queue<T> {
 
     private DoubleLinkedList<T> list;
 
@@ -38,3 +38,4 @@ public class Queue<T> {
     }
     
 }
+*/
