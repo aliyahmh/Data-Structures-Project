@@ -7,9 +7,18 @@ public class Customer {
     private String email;
     private DoubleLinkedList<Order> ordersList;
     
-    //-----------constructor------------//
+    // List of customers 
     
-            //*register customer*//
+    private DoubleLinkedList<Customer> customers = new DoubleLinkedList<>();
+    
+    //-----------constructors------------//
+          
+    
+    public Customer(){
+       this.customerid ="";
+       this.name = "";
+       this.email = "";
+    }
     
    public Customer(String id, String name, String email){
        this.customerid = id;
@@ -20,21 +29,40 @@ public class Customer {
    
    //-----------methods------------//
    
-   //*****Place new order for customer*****//
-
-    public void placeOrder(Order order) {
-        if (order != null && order.getCustomerID().equals(this.customerid)) {
-            ordersList.insert(order);
-            System.out.println("Order " + order.getOrderID() + " placed successfully for customer " + this.name);
-        } else {
-            System.out.println("Order does not belong to this customer or is invalid.");
+   //*****register customer*****//
+   
+   public void registerCustomer (Customer c){
+//       if (c.checkCustomerId(c))
+//           return;
+       customers.insert(c);
+   }
+   
+   public boolean checkCustomerId(String id, DoubleLinkedList<Customer> customers) {
+    Node<Customer> current = customers.getHead();
+    while (current != null) {
+        if (current.data.getCustomerId().equals(id)) {
+            return true; // found
         }
+        current = current.next;
     }
+    return false; // not found
+}
+
+   
+   //*****Place new order for customer*****//
+   
+   public void placeOrder (Order order){
+       if(order != null && order.getCustomerID().equals(this.customerid)) {
+        ordersList.insert(order);
+       } else {
+            System.out.println("Order does not belong to this customer.");
+       }
+   }
    
    //*****View order history*****//
    
    public void viewOrdersHistory(){
-       Node <Order> order = ordersList.getHead();
+       Node <Order> order = ordersList.getHead(); 
        if (order == null){
            System.out.println("No Orders found for customer "+this.name);
            return;
@@ -66,5 +94,26 @@ public class Customer {
    public DoubleLinkedList<Order> getOrderHistory(){
        return ordersList;             
    }
+   
+   //----------- Setters ------------//
     
+   public void setCustomerId(String id){
+       customerid = id;
+   }
+   
+   public void setName(String cname){
+       name = cname;
+   }
+   
+   public void setEmail(String cemail){
+       email = cemail;
+   }
+
+   
 }
+
+
+
+
+
+
