@@ -282,9 +282,10 @@ public class main {
             System.out.println("1. Add Review");
             System.out.println("2. Update Review");
             System.out.println("3. Show Reviews by Customer");
-            System.out.println("4. Show Top 3 Products");
-            System.out.println("5. Common High Rated Products (2 Customers)");
-            System.out.println("6. Back to Main Menu");
+            System.out.println("4. Get Average Rating For a Product");
+            System.out.println("5. Show Top 3 Products");
+            System.out.println("6. Common High Rated Products (2 Customers)");
+            System.out.println("7. Back to Main Menu");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
@@ -301,11 +302,18 @@ public class main {
                 Review.updateReview(); break;
                 case 3:
                  Review.showReviewsByCustomer(); break;
+
                 case 4:
-                 Review.showTop3Products(products); break;
+                System.out.print("Enter Product ID: ");
+                String id = input.nextLine();
+                System.out.print("Average rating for product " + id +" is: ");
+                System.out.println(Review.getAverageRatingForProduct(id)); break;
+
                 case 5:
-                 Review.showCommonHighRatedProducts(); break;
+                 Review.showTop3Products(products); break;
                 case 6:
+                 Review.showCommonHighRatedProducts(); break;
+                case 7:
                     System.out.println("Returning to main menu...");
                     break;
                 default:
