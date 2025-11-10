@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
-public class main {
+public class DataStructureProject {
 
     private static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
 
-//Loading data from CSV
+        //Loading data from CSV
 
         DoubleLinkedList<Product> products = CSVReader.readProducts("prodcuts.csv");
         DoubleLinkedList<Customer> customers = CSVReader.readCustomers("customers.csv");
@@ -35,8 +35,9 @@ public class main {
                     productsMenu();
                     break;
 
-                    case 2:
-                   //////CustomersMenu(products);
+                case 2:
+                    customersMenu(customers, products);
+
                     break;
 
                 case 3:
@@ -109,7 +110,111 @@ public class main {
             }
         } while (choice != 8);
     }
+    
+    // ------------------ CUSTOMERS MENU ------------------
+    public static void customersMenu(DoubleLinkedList<Customer> customers, DoubleLinkedList<Product> products) {
+        int choice;
+        Scanner input = new Scanner(System.in);
+        Customer helper = new Customer(); 
+    
+        do {
+            System.out.println("\n===== CUSTOMERS MENU =====");
+            System.out.println("1. Register New Customer");
+            System.out.println("2. Place Order");
+            System.out.println("3. View Order History");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            choice = input.nextInt();
+            input.nextLine();
 
+            switch (choice) {
+            case 1: {
+                System.out.print("Enter Customer ID: ");
+                String customerId = input.nextLine();
+
+                Customer checker = new Customer(); 
+                boolean exists = checker.checkCustomerId(customerId, customers); 
+
+                if (!exists) {
+                    System.out.print("Enter Customer Name: ");
+                    String name = input.nextLine();
+                    System.out.print("Enter Customer Email: ");
+                    String email = input.nextLine();
+
+                    Customer newCustomer = new Customer(customerId, name, email);
+                    customers.insert(newCustomer);
+
+                    System.out.println("Customer registered successfully!");
+                } else {
+                    System.out.println("Customer already exists!");
+                }
+                break;
+
+        }
+
+        case 2: {
+            
+            System.out.print("Enter Customer ID: ");
+            String customerId = input.nextLine();
+
+            // find the customer in the list
+            Customer foundCustomer = null;
+            Node<Customer> current = customers.getHead();
+            while (current != null) {
+                if (current.data.getCustomerId().equals(customerId)) {
+                    foundCustomer = current.data;
+                    break;
+                }
+                    current = current.next;
+            }
+
+            if (foundCustomer == null) {
+                System.out.println("Customer not found! Please register first.");
+            } else {
+                // use existing Order.createOrder() to create order
+                Order newOrder = Order.createOrder(products, customerId);
+                if (newOrder != null) {
+                    foundCustomer.placeOrder(newOrder);
+                }
+            }
+            break;
+        }
+
+        case 3: {
+            
+            System.out.print("Enter Customer ID: ");
+            String customerId = input.nextLine();
+
+            // find the customer and view their order history
+            Customer foundCustomer = null;
+            Node<Customer> current = customers.getHead();
+            while (current != null) {
+                if (current.data.getCustomerId().equals(customerId)) {
+                    foundCustomer = current.data;
+                    break;
+                }
+                current = current.next;
+            }
+
+            if (foundCustomer != null) {
+                foundCustomer.viewOrdersHistory();
+            } else {
+                System.out.println("Customer not found!");
+            }
+                break;
+            }
+
+            case 4:
+                
+                System.out.println("Returning to main menu...");
+                break;
+
+            default:
+                
+                System.out.println("Invalid choice!");
+        }
+    } while (choice != 4);
+}
 
     // ------------------ ORDERS MENU ------------------
     public static void ordersMenu(DoubleLinkedList<Product> products) {
@@ -166,6 +271,7 @@ public class main {
             }
         } while (choice != 7);
     }
+
 
     // ------------------ REVIEWS MENU ------------------
     public static void reviewsMenu(DoubleLinkedList<Product> products) {
