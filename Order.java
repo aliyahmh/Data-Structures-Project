@@ -5,17 +5,17 @@ import java.time.format.DateTimeParseException;
 public class Order {
     private String orderID;
     private String customerID; 
-    private DoubleLinkedList<String> productIDs; // quicker search by id
+    private LinkedList<String> productIDs; // quicker search by id
     private double totalPrice;
     private String orderDate; 
     private String status;
 
     /* scanner */
     private static Scanner in = new Scanner(System.in);
-    private static DoubleLinkedList<Order> allOrders = new DoubleLinkedList<>();
+    private static LinkedList<Order> allOrders = new LinkedList<>();
     
 
-    public Order(String orderID, String customerID, DoubleLinkedList<String> productIDs, double totalPrice, String orderDate, String status){
+    public Order(String orderID, String customerID, LinkedList<String> productIDs, double totalPrice, String orderDate, String status){
         this.orderID = orderID;
         this.customerID = customerID;
         this.productIDs = productIDs;
@@ -33,7 +33,7 @@ public class Order {
          return customerID; 
     }
 
-    public DoubleLinkedList<String> getProductIDs() {
+    public LinkedList<String> getProductIDs() {
          return productIDs; 
     }
 
@@ -53,11 +53,11 @@ public class Order {
          this.status = status;
     }
 
-       public static void setAllOrders(DoubleLinkedList<Order> orders) {
+       public static void setAllOrders(LinkedList<Order> orders) {
         allOrders = orders;
     }
     
-    public static DoubleLinkedList<Order> getAllOrders() {
+    public static LinkedList<Order> getAllOrders() {
         return allOrders;
     }
 
@@ -74,7 +74,7 @@ public class Order {
     
     
     
-    public static void cancelOrder(DoubleLinkedList<Product> products) {
+    public static void cancelOrder(LinkedList<Product> products) {
         System.out.print("Enter Order ID to cancel: ");
         String orderId = in.nextLine();
         
@@ -100,7 +100,7 @@ public class Order {
         order.setStatus("Cancelled");
         
         // Get the products and increase stock
-        DoubleLinkedList<String> productIds = order.getProductIDs();
+        LinkedList<String> productIds = order.getProductIDs();
         Node<String> productNode = productIds.getHead();
         while (productNode != null) {
             String productId = productNode.data;
@@ -165,7 +165,7 @@ public class Order {
         System.out.print("Enter end date (YYYY-MM-DD): ");
         String endDate = in.nextLine();
         
-        DoubleLinkedList<Order> ordersInRange = getOrdersBetweenDates(startDate, endDate);
+        LinkedList<Order> ordersInRange = getOrdersBetweenDates(startDate, endDate);
         
         if (ordersInRange.isEmpty()) {
             System.out.println("No orders found between " + startDate + " and " + endDate);
@@ -184,7 +184,7 @@ public class Order {
 
 
 
-    public static Order createOrder(DoubleLinkedList<Product> products, String customerId) {
+    public static Order createOrder(LinkedList<Product> products, String customerId) {
         System.out.print("Enter Order ID: ");
         String orderId = in.nextLine();
         
@@ -198,7 +198,7 @@ public class Order {
         String orderDate = in.nextLine();
         
         // select products 
-        DoubleLinkedList<String> selectedProductIds = new DoubleLinkedList<>();
+        LinkedList<String> selectedProductIds = new LinkedList<>();
         double totalPrice = 0.0;
         
         boolean addingProducts = true;
@@ -277,8 +277,8 @@ public class Order {
     }
 
 
-    public static DoubleLinkedList<Order> getOrdersBetweenDates(String startDate, String endDate) {
-        DoubleLinkedList<Order> result = new DoubleLinkedList<>();
+    public static LinkedList<Order> getOrdersBetweenDates(String startDate, String endDate) {
+        LinkedList<Order> result = new LinkedList<>();
 
 
 
@@ -367,7 +367,7 @@ public class Order {
     }
 
 
-    private static Product findProductById(DoubleLinkedList<Product> products, String productId) {
+    private static Product findProductById(LinkedList<Product> products, String productId) {
         if (products.isEmpty()) {
             return null;
         }

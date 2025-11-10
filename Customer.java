@@ -5,11 +5,11 @@ public class Customer {
     private String customerid;
     private String name;
     private String email;
-    private DoubleLinkedList<Order> ordersList;
+    private LinkedList<Order> ordersList;
     
     // List of customers 
     
-    private DoubleLinkedList<Customer> customers = new DoubleLinkedList<>();
+    private LinkedList<Customer> customers = new LinkedList<>();
     
     //-----------constructors------------//
           
@@ -24,7 +24,7 @@ public class Customer {
        this.customerid = id;
        this.name = name;
        this.email = email;
-       this.ordersList= new DoubleLinkedList<>();              
+       this.ordersList= new LinkedList<>();              
    }
    
    //-----------methods------------//
@@ -37,7 +37,7 @@ public class Customer {
        customers.insert(c);
    }
    
-   public boolean checkCustomerId(String id, DoubleLinkedList<Customer> customers) {
+   public boolean checkCustomerId(String id, LinkedList<Customer> customers) {
     Node<Customer> current = customers.getHead();
     while (current != null) {
         if (current.data.getCustomerId().equals(id)) {
@@ -91,7 +91,7 @@ public class Customer {
        return email;
    }
    
-   public DoubleLinkedList<Order> getOrderHistory(){
+   public LinkedList<Order> getOrderHistory(){
        return ordersList;             
    }
    

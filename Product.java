@@ -8,10 +8,10 @@ public class Product {
     private double price;
     private int stock;
 
-    private DoubleLinkedList<Review> reviews = new DoubleLinkedList<>();
+    private LinkedList<Review> reviews = new LinkedList<>();
 
 //-------------------List of product from csvReader---------------
-    private static DoubleLinkedList<Product> products;
+    private static LinkedList<Product> products;
     private static Scanner input = new Scanner(System.in);
 
     //------------------------ Constructors ------------------------
@@ -45,7 +45,7 @@ public class Product {
     public void setStock(int stock) {
          this.stock = stock; }
 
-    public DoubleLinkedList<Review> getReviews() {
+    public LinkedList<Review> getReviews() {
          return reviews; }
 
     //------------------------ Reviews Operations ------------------------
@@ -57,7 +57,7 @@ public class Product {
     //------------------------ Static Methods ---------------------------
 
     // -----------------------CSVReader------------------------------------
-    public static void setProductList(DoubleLinkedList<Product> listFromCSV) {
+    public static void setProductList(LinkedList<Product> listFromCSV) {
         products = listFromCSV;
     }
 //            *********************************************************

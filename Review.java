@@ -51,7 +51,7 @@ public class Review {
 
     // Data Management Section
     private static Scanner input = new Scanner(System.in);
-    private static DoubleLinkedList<Review> reviews = new DoubleLinkedList<>();
+    private static LinkedList<Review> reviews = new LinkedList<>();
 
     // Add Review
     public static void addReview(String customerId, String productId) {
@@ -184,8 +184,12 @@ public class Review {
     }
 
     // Accessor for list
-    public static DoubleLinkedList<Review> getReviewsList() {
+    public static LinkedList<Review> getReviewsList() {
         return reviews;
+    }
+
+    public static void setReviewsList(LinkedList<Review> listFromCSV) {
+        reviews = listFromCSV;
     }
 
 
@@ -203,8 +207,8 @@ public class Review {
     System.out.print("Enter second customer ID: ");
     String customer2 = input.nextLine();
 
-    DoubleLinkedList<String> products1 = new DoubleLinkedList<>();
-    DoubleLinkedList<String> products2 = new DoubleLinkedList<>();
+    LinkedList<String> products1 = new LinkedList<>();
+    LinkedList<String> products2 = new LinkedList<>();
 
     reviews.findFirst();
     while (true) {
@@ -221,7 +225,7 @@ public class Review {
         reviews.findNext();
     }
 
-    DoubleLinkedList<String> common = new DoubleLinkedList<>();
+    LinkedList<String> common = new LinkedList<>();
     Node<String> p1 = products1.getHead();
 
     while (p1 != null) {
@@ -282,14 +286,14 @@ public static void showReviewsByCustomer() {
 
 
 
- public static void showTop3Products(DoubleLinkedList<Product> products) {
+ public static void showTop3Products(LinkedList<Product> products) {
     if (products.empty() || reviews.empty()) {
         System.out.println(" No products or reviews available!");
         return;
     }
 
-    DoubleLinkedList<Product> sortedList = new DoubleLinkedList<>();
-    DoubleLinkedList<Double> avgRatings = new DoubleLinkedList<>();
+    LinkedList<Product> sortedList = new LinkedList<>();
+    LinkedList<Double> avgRatings = new LinkedList<>();
 
     Node<Product> pNode = products.getHead();
     while (pNode != null) {

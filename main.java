@@ -8,13 +8,14 @@ public class main {
 
         //Loading data from CSV
 
-        DoubleLinkedList<Product> products = CSVReader.readProducts("prodcuts.csv");
-        DoubleLinkedList<Customer> customers = CSVReader.readCustomers("customers.csv");
-        DoubleLinkedList<Order> orders = CSVReader.readOrders("orders.csv");
-        DoubleLinkedList<Review> reviews = CSVReader.readReviews("reviews.csv");
+        LinkedList<Product> products = CSVReader.readProducts("prodcuts.csv");
+        LinkedList<Customer> customers = CSVReader.readCustomers("customers.csv");
+        LinkedList<Order> orders = CSVReader.readOrders("orders.csv");
+        LinkedList<Review> reviews = CSVReader.readReviews("reviews.csv");
 
         Product.setProductList(products);
         Order.setAllOrders(orders);
+        Review.setReviewsList(reviews);
         
         int choice;
         do {
@@ -112,7 +113,7 @@ public class main {
     }
     
     // ------------------ CUSTOMERS MENU ------------------
-    public static void customersMenu(DoubleLinkedList<Customer> customers, DoubleLinkedList<Product> products) {
+    public static void customersMenu(LinkedList<Customer> customers, LinkedList<Product> products) {
         int choice;
         Scanner input = new Scanner(System.in);
         Customer helper = new Customer(); 
@@ -217,7 +218,7 @@ public class main {
 }
 
     // ------------------ ORDERS MENU ------------------
-    public static void ordersMenu(DoubleLinkedList<Product> products) {
+    public static void ordersMenu(LinkedList<Product> products) {
         int choice;
         do {
             System.out.println("\n===== ORDERS MENU =====");
@@ -274,7 +275,7 @@ public class main {
 
 
     // ------------------ REVIEWS MENU ------------------
-    public static void reviewsMenu(DoubleLinkedList<Product> products) {
+    public static void reviewsMenu(LinkedList<Product> products) {
         int choice;
         do {
             System.out.println("\n===== REVIEWS MENU =====");
