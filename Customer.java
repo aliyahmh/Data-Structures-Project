@@ -32,8 +32,6 @@ public class Customer {
    //*****register customer*****//
    
    public void registerCustomer (Customer c){
-//       if (c.checkCustomerId(c))
-//           return;
        customers.insert(c);
    }
    
@@ -91,9 +89,6 @@ public class Customer {
        return email;
    }
    
-   public LinkedList<Order> getOrderHistory(){
-       return ordersList;             
-   }
 
    @Override
    public String toString() {
