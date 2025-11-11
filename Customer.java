@@ -27,7 +27,7 @@ public class Customer {
    
    //*****register customer*****//
    
-   public void registerCustomer (Customer c, DoubleLinkedList<Customer> customers){
+   public void registerCustomer (Customer c, LinkedList<Customer> customers){
        customers.insert(c);
    }
    
