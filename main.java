@@ -6,17 +6,17 @@ public class main {
 
     public static void main(String[] args) {
 
-//Loading data from CSV
+        //Loading data from CSV
 
-        DoubleLinkedList<Product> products = CSVReader.readProducts("prodcuts.csv");
-        DoubleLinkedList<Customer> customers = CSVReader.readCustomers("customers.csv");
-        DoubleLinkedList<Order> orders = CSVReader.readOrders("orders.csv");
-        DoubleLinkedList<Review> reviews = CSVReader.readReviews("reviews.csv");
+        LinkedList<Product> products = CSVReader.readProducts("prodcuts.csv");
+        LinkedList<Customer> customers = CSVReader.readCustomers("customers.csv");
+        LinkedList<Order> orders = CSVReader.readOrders("orders.csv");
+        LinkedList<Review> reviews = CSVReader.readReviews("reviews.csv");
 
         Product.setProductList(products);
         Order.setAllOrders(orders);
         Review.setReviewsList(reviews);
-
+        
         int choice;
         do {
             System.out.println("==========================");
@@ -36,8 +36,9 @@ public class main {
                     productsMenu();
                     break;
 
-                    case 2:
-                   //////CustomersMenu(products);
+                case 2:
+                    customersMenu(customers, products);
+
                     break;
 
                 case 3:
@@ -110,10 +111,114 @@ public class main {
             }
         } while (choice != 8);
     }
+    
+    // ------------------ CUSTOMERS MENU ------------------
+    public static void customersMenu(LinkedList<Customer> customers, LinkedList<Product> products) {
+        int choice;
+        Scanner input = new Scanner(System.in);
+        Customer helper = new Customer(); 
+    
+        do {
+            System.out.println("\n===== CUSTOMERS MENU =====");
+            System.out.println("1. Register New Customer");
+            System.out.println("2. Place Order");
+            System.out.println("3. View Order History");
+            System.out.println("4. Back to Main Menu");
+            System.out.print("Enter your choice: ");
+            choice = input.nextInt();
+            input.nextLine();
 
+            switch (choice) {
+            case 1: {
+                System.out.print("Enter Customer ID: ");
+                String customerId = input.nextLine();
+
+                Customer checker = new Customer(); 
+                boolean exists = checker.checkCustomerId(customerId, customers); 
+
+                if (!exists) {
+                    System.out.print("Enter Customer Name: ");
+                    String name = input.nextLine();
+                    System.out.print("Enter Customer Email: ");
+                    String email = input.nextLine();
+
+                    Customer newCustomer = new Customer(customerId, name, email);
+                    customers.insert(newCustomer);
+
+                    System.out.println("Customer registered successfully!");
+                } else {
+                    System.out.println("Customer already exists!");
+                }
+                break;
+
+        }
+
+        case 2: {
+            
+            System.out.print("Enter Customer ID: ");
+            String customerId = input.nextLine();
+
+            // find the customer in the list
+            Customer foundCustomer = null;
+            Node<Customer> current = customers.getHead();
+            while (current != null) {
+                if (current.data.getCustomerId().equals(customerId)) {
+                    foundCustomer = current.data;
+                    break;
+                }
+                    current = current.next;
+            }
+
+            if (foundCustomer == null) {
+                System.out.println("Customer not found! Please register first.");
+            } else {
+                // use existing Order.createOrder() to create order
+                Order newOrder = Order.createOrder(products, customerId);
+                if (newOrder != null) {
+                    foundCustomer.placeOrder(newOrder);
+                }
+            }
+            break;
+        }
+
+        case 3: {
+            
+            System.out.print("Enter Customer ID: ");
+            String customerId = input.nextLine();
+
+            // find the customer and view their order history
+            Customer foundCustomer = null;
+            Node<Customer> current = customers.getHead();
+            while (current != null) {
+                if (current.data.getCustomerId().equals(customerId)) {
+                    foundCustomer = current.data;
+                    break;
+                }
+                current = current.next;
+            }
+
+            if (foundCustomer != null) {
+                foundCustomer.viewOrdersHistory();
+            } else {
+                System.out.println("Customer not found!");
+            }
+                break;
+            }
+
+            case 4:
+                
+                System.out.println("Returning to main menu...");
+                break;
+
+            default:
+                
+                System.out.println("Invalid choice!");
+        }
+    } while (choice != 4);
+}
 
     // ------------------ ORDERS MENU ------------------
-    public static void ordersMenu(DoubleLinkedList<Product> products) {
+    public static void ordersMenu(LinkedList<Product> products) {
         int choice;
         do {
             System.out.println("\n===== ORDERS MENU =====");
@@ -168,17 +273,19 @@ public class main {
         } while (choice != 7);
     }
 
+
     // ------------------ REVIEWS MENU ------------------
-    public static void reviewsMenu(DoubleLinkedList<Product> products) {
+    public static void reviewsMenu(LinkedList<Product> products) {
         int choice;
         do {
             System.out.println("\n===== REVIEWS MENU =====");
             System.out.println("1. Add Review");
             System.out.println("2. Update Review");
             System.out.println("3. Show Reviews by Customer");
-            System.out.println("4. Show Top 3 Products");
-            System.out.println("5. Common High Rated Products (2 Customers)");
-            System.out.println("6. Back to Main Menu");
+            System.out.println("4. Get Average Rating For a Product");
+            System.out.println("5. Show Top 3 Products");
+            System.out.println("6. Common High Rated Products (2 Customers)");
+            System.out.println("7. Back to Main Menu");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
@@ -195,11 +302,18 @@ public class main {
                 Review.updateReview(); break;
                 case 3:
                  Review.showReviewsByCustomer(); break;
+
                 case 4:
-                 Review.showTop3Products(products); break;
+                System.out.print("Enter Product ID: ");
+                String id = input.nextLine();
+                System.out.print("Average rating for product " + id +" is: ");
+                System.out.println(Review.getAverageRatingForProduct(id)); break;
+
                 case 5:
-                 Review.showCommonHighRatedProducts(); break;
+                 Review.showTop3Products(products); break;
                 case 6:
+                 Review.showCommonHighRatedProducts(); break;
+                case 7:
                     System.out.println("Returning to main menu...");
                     break;
                 default:

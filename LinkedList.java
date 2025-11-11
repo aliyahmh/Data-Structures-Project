@@ -1,36 +1,4 @@
 public class LinkedList<T>{
-    
-            class Node<T> {
-            public T data;
-            public Node<T> next;
-            public Node () {
-                data = null;
-                next = null;
-            }
-            public Node (T val) {
-                data = val;
-                next = null;
-            }
-            // Setters/Getters...
-
-            public T getData() {
-                return data;
-            }
-
-            public void setData(T data) {
-                this.data = data;
-            }
-
-            public Node<T> getNext() {
-                return next;
-            }
-
-            public void setNext(Node<T> next) {
-                this.next = next;
-            }
-
-        }
-    
     // class Linked List
     private Node<T> head;
     private Node<T> current;
@@ -67,6 +35,13 @@ public class LinkedList<T>{
             current.data = val;
     }
     
+    public Node<T> getHead() {
+        return head;
+    }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
     public void insert (T val) {
             Node<T> tmp;
             if (empty()) {

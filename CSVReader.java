@@ -7,8 +7,8 @@ public class CSVReader {
     
     //-------------------Product Reader-------------------//
     
-    public static DoubleLinkedList<Product> readProducts(String filename) {
-        DoubleLinkedList<Product> products = new DoubleLinkedList<>();
+    public static LinkedList<Product> readProducts(String filename) {
+        LinkedList<Product> products = new LinkedList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -39,8 +39,8 @@ public class CSVReader {
     
     //-------------------Customers Reader-------------------//
     
-    public static DoubleLinkedList<Customer> readCustomers(String filename) {
-        DoubleLinkedList<Customer> customers = new DoubleLinkedList<>();
+    public static LinkedList<Customer> readCustomers(String filename) {
+        LinkedList<Customer> customers = new LinkedList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -71,8 +71,8 @@ public class CSVReader {
     //-------------------Orders Reader-------------------//
     
     
-    public static DoubleLinkedList<Order> readOrders(String filename) {
-        DoubleLinkedList<Order> orders = new DoubleLinkedList<>();
+    public static LinkedList<Order> readOrders(String filename) {
+        LinkedList<Order> orders = new LinkedList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -90,7 +90,7 @@ public class CSVReader {
                     String customerId = data[1].trim();
                     
                     // Parse product IDs (semicolon separated)
-                    DoubleLinkedList<String> productIds = new DoubleLinkedList<>();
+                    LinkedList<String> productIds = new LinkedList<>();
                     String[] ids = data[2].replace("\"", "").split(";");
                     for (String id : ids) {
                         productIds.insert(id.trim());
@@ -113,8 +113,8 @@ public class CSVReader {
     //-------------------Reviews Reader-------------------//
     
     
-    public static DoubleLinkedList<Review> readReviews(String filename) {
-        DoubleLinkedList<Review> reviews = new DoubleLinkedList<>();
+    public static LinkedList<Review> readReviews(String filename) {
+        LinkedList<Review> reviews = new LinkedList<>();
         
         try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
             String line;
