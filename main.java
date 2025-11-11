@@ -143,7 +143,7 @@ public class main {
                     String email = input.nextLine();
 
                     Customer newCustomer = new Customer(customerId, name, email);
-                    customers.insert(newCustomer);
+                    newCustomer.registerCustomer(newCustomer,customers);
 
                     System.out.println("Customer registered successfully!");
                 } else {
