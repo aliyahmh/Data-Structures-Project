@@ -15,7 +15,8 @@ public class main {
 
         Product.setProductList(products);
         Order.setAllOrders(orders);
-        
+        Review.setReviewsList(reviews);
+
         int choice;
         do {
             System.out.println("==========================");

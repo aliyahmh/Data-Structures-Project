@@ -66,5 +66,13 @@ public class Customer {
    public DoubleLinkedList<Order> getOrderHistory(){
        return ordersList;             
    }
+
+   @Override
+   public String toString() {
+    return "Customer [customerid=" + customerid + ", name=" + name + ", email=" + email + "]";
+   }
     
+
+
+   
 }

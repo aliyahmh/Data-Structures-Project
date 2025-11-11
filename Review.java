@@ -188,7 +188,9 @@ public class Review {
         return reviews;
     }
 
-
+public static void setReviewsList(DoubleLinkedList<Review> listFromCSV) {
+        reviews = listFromCSV;
+    }
 
 
     public static void showCommonHighRatedProducts() {
