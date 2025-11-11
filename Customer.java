@@ -7,10 +7,6 @@ public class Customer {
     private String email;
     private LinkedList<Order> ordersList;
     
-    // List of customers 
-    
-    private LinkedList<Customer> customers = new LinkedList<>();
-    
     //-----------constructors------------//
           
     
@@ -31,7 +27,7 @@ public class Customer {
    
    //*****register customer*****//
    
-   public void registerCustomer (Customer c){
+   public void registerCustomer (Customer c, DoubleLinkedList<Customer> customers){
        customers.insert(c);
    }
    
