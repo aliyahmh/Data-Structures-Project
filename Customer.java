@@ -71,6 +71,20 @@ public class Customer {
        }
    }
    
+   //----------- Setters ------------//
+    
+   public void setCustomerId(String id){
+       customerid = id;
+   }
+   
+   public void setName(String cname){
+       name = cname;
+   }
+   
+   public void setEmail(String cemail){
+       email = cemail;
+   }
+   
    //----------- Getters ------------//
    
    public String getCustomerId(){
@@ -91,25 +105,8 @@ public class Customer {
     return "Customer [customerid=" + customerid + ", name=" + name + ", email=" + email + "]";
    }
     
-
-   
-   //----------- Setters ------------//
-    
-   public void setCustomerId(String id){
-       customerid = id;
-   }
-   
-   public void setName(String cname){
-       name = cname;
-   }
-   
-   public void setEmail(String cemail){
-       email = cemail;
-   }
-
    
 }
-
 
 
 
