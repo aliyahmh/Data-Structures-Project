@@ -3,6 +3,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
 public class Order {
+    
+    //-----------attributes------------//
+    
     private String orderID;
     private String customerID; 
     private LinkedList<String> productIDs; // quicker search by id
@@ -12,9 +15,18 @@ public class Order {
 
     /* scanner */
     private static Scanner in = new Scanner(System.in);
-    private static LinkedList<Order> allOrders = new LinkedList<>();
     
-
+    
+    //-----------constructors------------//
+    
+    public Order() {
+        this.orderID = "";
+        this.customerID = "";
+        this.totalPrice = 0.0;
+        this.orderDate = "";
+        this.status = "";
+    }
+    
     public Order(String orderID, String customerID, LinkedList<String> productIDs, double totalPrice, String orderDate, String status){
         this.orderID = orderID;
         this.customerID = customerID;
@@ -24,61 +36,13 @@ public class Order {
         this.status = status;
     }
 
-    /* setters & getters */
-    public String getOrderID() {
-         return orderID; 
-    }
-
-    public String getCustomerID() {
-         return customerID; 
-    }
-
-    public LinkedList<String> getProductIDs() {
-         return productIDs; 
-    }
-
-    public double getTotalPrice() {
-         return totalPrice; 
-    }
-
-    public String getOrderDate() {
-         return orderDate; 
-    }
-
-    public String getStatus() {
-         return status; 
-    }
-
-    public void setStatus(String status) {
-         this.status = status;
-    }
-
-       public static void setAllOrders(LinkedList<Order> orders) {
-        allOrders = orders;
-    }
+    //-----------methods------------//
     
-    public static LinkedList<Order> getAllOrders() {
-        return allOrders;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Order ID: " + orderID + ", Customer: " + customerID + 
-               ", Total: $" + totalPrice + ", Date: " + orderDate + ", Status: " + status;
-    }
-
-
-
-    
-    
-    
-    public static void cancelOrder(LinkedList<Product> products) {
+    public static void cancelOrder(LinkedList<Order> allOrders,LinkedList<Product> products) {
         System.out.print("Enter Order ID to cancel: ");
         String orderId = in.nextLine();
         
-        Order order = searchOrderById(orderId);
+        Order order = searchOrderById(allOrders,orderId);
         if (order == null) {
             System.out.println("Order not found!");
             return;
@@ -117,11 +81,11 @@ public class Order {
     }
 
 
-    public static void updateOrderStatus() {
+    public static void updateOrderStatus(LinkedList<Order> allOrders) {
         System.out.print("Enter Order ID: ");
         String orderId = in.nextLine();
         
-        Order order = searchOrderById(orderId);
+        Order order = searchOrderById(allOrders,orderId);
         if (order == null) {
             System.out.println("Order not found!");
             return;
@@ -143,7 +107,7 @@ public class Order {
 
 
 
-    public static Order searchOrderById(String orderId) {
+    public static Order searchOrderById(LinkedList<Order> allOrders,String orderId) {
         if (allOrders.isEmpty()) {
             return null;
         }
@@ -159,13 +123,13 @@ public class Order {
     }
 
 
-    public static void displayOrdersBetweenDates() {
+    public static void displayOrdersBetweenDates(LinkedList<Order> allOrders) {
         System.out.print("Enter start date (YYYY-MM-DD): ");
         String startDate = in.nextLine();
         System.out.print("Enter end date (YYYY-MM-DD): ");
         String endDate = in.nextLine();
         
-        LinkedList<Order> ordersInRange = getOrdersBetweenDates(startDate, endDate);
+        LinkedList<Order> ordersInRange = getOrdersBetweenDates(allOrders,startDate, endDate);
         
         if (ordersInRange.isEmpty()) {
             System.out.println("No orders found between " + startDate + " and " + endDate);
@@ -184,12 +148,12 @@ public class Order {
 
 
 
-    public static Order createOrder(LinkedList<Product> products, String customerId) {
+    public static Order createOrder(LinkedList<Product> products,LinkedList<Order> allOrders, String customerId) {
         System.out.print("Enter Order ID: ");
         String orderId = in.nextLine();
         
         // check if order ID already exists
-        if (validOrder(orderId)) {
+        if (validOrder(allOrders,orderId)) {
             System.out.println("Order ID already exists!");
             return null;
         }
@@ -255,7 +219,7 @@ public class Order {
 
 
 
-        public static void displayAllOrders() {
+    public static void displayAllOrders(LinkedList<Order> allOrders) {
         if (allOrders.isEmpty()) {
             System.out.println("No orders available!");
             return;
@@ -272,98 +236,52 @@ public class Order {
 
     /* helper methods */
     
-      public static boolean validOrder(String orderId) { // checks if an order w this id exists
-        return searchOrderById(orderId) != null;
+    // checks if an order w this id exists 
+    
+    public static boolean validOrder(LinkedList<Order> allOrders,String orderId) { 
+        return searchOrderById(allOrders,orderId) != null;
     }
 
 
-    public static LinkedList<Order> getOrdersBetweenDates(String startDate, String endDate) {
+    public static LinkedList<Order> getOrdersBetweenDates(LinkedList<Order> allOrders,String startDate, String endDate) {
         LinkedList<Order> result = new LinkedList<>();
 
 
 
-    try {
-        LocalDate start = LocalDate.parse(startDate); // used it for easier validation
-        LocalDate end = LocalDate.parse(endDate);
+        try {
+            LocalDate start = LocalDate.parse(startDate); // used it for easier validation
+            LocalDate end = LocalDate.parse(endDate);
         
-        if (start.isAfter(end)) {
-            System.out.println("Error: Start date must be before end date.");
-            return result;
-        }
+            if (start.isAfter(end)) {
+                System.out.println("Error: Start date must be before end date.");
+                return result;
+            }
         
         
-        Node<Order> current = allOrders.getHead();
-        while (current != null) {
-            Order order = current.data;
-            String orderDateStr = order.getOrderDate();
+            Node<Order> current = allOrders.getHead();
+            while (current != null) {
+                Order order = current.data;
+                String orderDateStr = order.getOrderDate();
             
-            if (orderDateStr != null) {
-                try {
-                    LocalDate orderDate = LocalDate.parse(orderDateStr);
-                    if (!orderDate.isBefore(start) && !orderDate.isAfter(end)) {
-                        result.insert(order);
-                    }
-                } catch (DateTimeParseException e) {
+                if (orderDateStr != null) {
+                    try {
+                        LocalDate orderDate = LocalDate.parse(orderDateStr);
+                        if (!orderDate.isBefore(start) && !orderDate.isAfter(end)) {
+                            result.insert(order);
+                        }
+                    } catch (DateTimeParseException e) {
                     // skip orders with invalid dates
+                    }
                 }
+                current = current.next;
             }
-            current = current.next;
-        }
         
-    } catch (DateTimeParseException e) {
-        System.out.println("Error: Invalid date format. Use YYYY-MM-DD (e.g., 2025-01-15).");
-        return result;
-    }
+        } catch (DateTimeParseException e) {
+            System.out.println("Error: Invalid date format. Use YYYY-MM-DD (e.g., 2025-01-15).");
+            return result;
+        }
     
-    return result;
-        
-
-
-
-
-        /*if (allOrders.isEmpty()) {
-            System.out.println("No orders available.");
-            return result;
-        }
-
-        if (startDate == null || endDate == null || startDate == "" || endDate == "") {
-            System.out.println("Error: Dates cannot be empty.");
-            return result;
-        }
-
-
-
-        // format checking
-        if (startDate.length() != 10 || !startDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            System.out.println("Error: Invalid start date format. Use YYYY-MM-DD.");
-            return result;
-        }
-        
-        if (endDate.length() != 10 || !endDate.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            System.out.println("Error: Invalid end date format. Use YYYY-MM-DD.");
-            return result;
-        }
-        
-        // Check if start date is before end date
-        if (startDate.compareTo(endDate) > 0) {
-            System.out.println("Error: Start date must be before end date.");
-            return result;
-        }
-
-
-
-        
-        Node<Order> current = allOrders.getHead();
-        while (current != null) {
-            String orderDate = current.data.getOrderDate();
-            // (assuming dates are in YYYY-MM-DD format)
-            if (orderDate.compareTo(startDate) >= 0 && orderDate.compareTo(endDate) <= 0) { //
-                result.insert(current.data);
-            }
-            current = current.next;
-        }
-        
-        return result; */
+        return result;    
     }
 
 
@@ -388,12 +306,63 @@ public class Order {
                "Delivered".equalsIgnoreCase(status) ||
                "Cancelled".equalsIgnoreCase(status);
     }
-
-
-
-     
-
-
-
     
+    //----------- Getters ------------//
+    
+    public String getOrderID() {
+         return orderID; 
+    }
+
+    public String getCustomerID() {
+         return customerID; 
+    }
+
+    public LinkedList<String> getProductIDs() {
+         return productIDs; 
+    }
+
+    public double getTotalPrice() {
+         return totalPrice; 
+    }
+
+    public String getOrderDate() {
+         return orderDate; 
+    }
+
+    public String getStatus() {
+         return status; 
+    }
+
+    //----------- Setters ------------//
+    
+    public void setStatus(String status) {
+         this.status = status;
+    }
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public void setProductIDs(LinkedList<String> productIDs) {
+        this.productIDs = productIDs;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Order ID: " + orderID + ", Customer: " + customerID + 
+               ", Total: $" + totalPrice + ", Date: " + orderDate + ", Status: " + status;
+    }
+   
 }
