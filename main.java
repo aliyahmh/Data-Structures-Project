@@ -13,10 +13,6 @@ public class main {
         LinkedList<Order> orders = CSVReader.readOrders("orders.csv");
         LinkedList<Review> reviews = CSVReader.readReviews("reviews.csv");
 
-        Product.setProductList(products);
-        Order.setAllOrders(orders);
-        Review.setReviewsList(reviews);
-        
         int choice;
         do {
             System.out.println("==========================");
@@ -33,20 +29,20 @@ public class main {
 
             switch (choice) { // main switch 
                 case 1:
-                    productsMenu();
+                    productsMenu(products);
                     break;
 
                 case 2:
-                    customersMenu(customers, products);
+                    customersMenu(customers, products,orders);
 
                     break;
 
                 case 3:
-                    ordersMenu(products);
+                    ordersMenu(products,orders);
                     break;
 
                 case 4:
-                    reviewsMenu(products);
+                    reviewsMenu(products,reviews);
                     break;
 
                 case 5:
@@ -60,7 +56,8 @@ public class main {
     }
 
     // ------------------ PRODUCTS MENU ------------------
-    public static void productsMenu() {
+    
+    public static void productsMenu(LinkedList<Product> products) {
         int choice;
         do {
             System.out.println("\n===== PRODUCTS MENU =====");
@@ -77,43 +74,62 @@ public class main {
             input.nextLine();
 
             switch (choice) {
-                case 1: Product.addProduct(); 
-                break;
+                case 1: 
+                    
+                    Product.addProduct(products); 
+                    break;
 
-                case 2: Product.removeProduct(); 
-                break;
+                case 2: 
+                    
+                    Product.removeProduct(products); 
+                    break;
 
-                case 3: Product.updateProduct();
-                 break;
-
+                case 3: 
+                    
+                    Product.updateProduct(products);
+                    break;
+                    
                 case 4:
+                    
                     System.out.print("Enter Product ID: ");
                     String id = input.nextLine();
-                    Product foundById = Product.searchById(id);
+                    Product foundById = Product.searchById(products,id);
                     System.out.println(foundById != null ? foundById : "Product not found!");
                     break;
 
                 case 5:
+                    
                     System.out.print("Enter Product Name: ");
                     String name = input.nextLine();
-                    Product foundByName = Product.searchByName(name);
+                    Product foundByName = Product.searchByName(products,name);
                     System.out.println(foundByName != null ? foundByName : "Product not found!");
                     break;
 
                 case 6: 
-                Product.showOutOfStock(); break;
+                    
+                    Product.showOutOfStock(products); 
+                    break;
+                    
                 case 7:
-                 Product.displayAllProducts(); break;
+                    
+                    Product.displayAllProducts(products); 
+                    break;
+                    
                 case 8: 
-                System.out.println("Returning to main menu..."); break;
+                    
+                    System.out.println("Returning to main menu..."); 
+                    break;
+                
                 default: 
-                System.out.println("Invalid choice!");
+                    
+                    System.out.println("Invalid choice!");
             }
+            
         } while (choice != 8);
     }
     
     // ------------------ CUSTOMERS MENU ------------------
-    public static void customersMenu(LinkedList<Customer> customers, LinkedList<Product> products) {
+    public static void customersMenu(LinkedList<Customer> customers, LinkedList<Product> products,LinkedList<Order> orders) {
         int choice;
         Scanner input = new Scanner(System.in);
         Customer helper = new Customer(); 
@@ -173,7 +189,7 @@ public class main {
                 System.out.println("Customer not found! Please register first.");
             } else {
                 // use existing Order.createOrder() to create order
-                Order newOrder = Order.createOrder(products, customerId);
+                Order newOrder = Order.createOrder(products,orders, customerId);
                 if (newOrder != null) {
                     foundCustomer.placeOrder(newOrder);
                 }
@@ -213,12 +229,12 @@ public class main {
             default:
                 
                 System.out.println("Invalid choice!");
-        }
-    } while (choice != 4);
-}
+            }
+        } while (choice != 4);
+    }
 
     // ------------------ ORDERS MENU ------------------
-    public static void ordersMenu(LinkedList<Product> products) {
+    public static void ordersMenu(LinkedList<Product> products,LinkedList<Order> orders) {
         int choice;
         do {
             System.out.println("\n===== ORDERS MENU =====");
@@ -237,30 +253,30 @@ public class main {
                 case 1:
                     System.out.print("Enter Customer ID for new order: ");
                     String customerId = input.nextLine();
-                    Order.createOrder(products, customerId);
+                    Order.createOrder(products,orders, customerId);
                     break;
 
                 case 2:
-                    Order.cancelOrder(products);
+                    Order.cancelOrder(orders,products);
                     break;
 
                 case 3:
-                    Order.updateOrderStatus();
+                    Order.updateOrderStatus(orders);
                     break;
 
                 case 4:
                     System.out.print("Enter Order ID: ");
                     String orderId = input.nextLine();
-                    Order foundOrder = Order.searchOrderById(orderId);
+                    Order foundOrder = Order.searchOrderById(orders,orderId);
                     System.out.println(foundOrder != null ? foundOrder : "Order not found!");
                     break;
 
                 case 5:
-                    Order.displayOrdersBetweenDates();
+                    Order.displayOrdersBetweenDates(orders);
                     break;
 
                 case 6:
-                    Order.displayAllOrders();
+                    Order.displayAllOrders(orders);
                     break;
 
                 case 7:
@@ -275,7 +291,8 @@ public class main {
 
 
     // ------------------ REVIEWS MENU ------------------
-    public static void reviewsMenu(LinkedList<Product> products) {
+    public static void reviewsMenu(LinkedList<Product> products,LinkedList<Review> reviews) {
+        
         int choice;
         do {
             System.out.println("\n===== REVIEWS MENU =====");
@@ -292,33 +309,51 @@ public class main {
 
             switch (choice) {
                 case 1:
+                    
                     System.out.print("Enter Customer ID: ");
                     String cid = input.nextLine();
                     System.out.print("Enter Product ID: ");
                     String pid = input.nextLine();
-                    Review.addReview(cid, pid);
+                    Review.addReview(reviews,cid, pid);
                     break;
+                    
                 case 2: 
-                Review.updateReview(); break;
+                    
+                    Review.updateReview(reviews); 
+                    break;
+                    
                 case 3:
-                 Review.showReviewsByCustomer(); break;
+                    
+                    Review.showReviewsByCustomer(reviews); 
+                    break;
 
                 case 4:
-                System.out.print("Enter Product ID: ");
-                String id = input.nextLine();
-                System.out.print("Average rating for product " + id +" is: ");
-                System.out.println(Review.getAverageRatingForProduct(id)); break;
+                    
+                    System.out.print("Enter Product ID: ");
+                    String id = input.nextLine();
+                    System.out.print("Average rating for product " + id +" is: ");
+                    System.out.println(Review.getAverageRatingForProduct(reviews,id)); 
+                break;
 
                 case 5:
-                 Review.showTop3Products(products); break;
+                    
+                    Review.showTop3Products(reviews,products); 
+                    break;
+                 
                 case 6:
-                 Review.showCommonHighRatedProducts(); break;
+                    
+                    Review.showCommonHighRatedProducts(reviews); 
+                    break;
+                 
                 case 7:
+                    
                     System.out.println("Returning to main menu...");
                     break;
+                    
                 default:
+                    
                     System.out.println("Invalid choice!");
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 }
