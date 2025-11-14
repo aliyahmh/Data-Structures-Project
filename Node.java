@@ -10,23 +10,25 @@ public class Node<T> {
         data = val;
         next = null;
     }
-    // Setters/Getters...
-
-    public T getData() {
-        return data;
-    }
+    
+    //----------- Setters ------------//
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public void setNext(Node<T> next) {
+        this.next = next;
+    }
+    
+    //----------- Getters ------------//
+    
+    public T getData() {
+        return data;
     }
 
     public Node<T> getNext() {
         return next;
     }
 
-    public void setNext(Node<T> next) {
-        this.next = next;
-    }
 }
-
-
