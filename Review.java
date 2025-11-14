@@ -1,14 +1,21 @@
 import java.util.Scanner;
 
 public class Review {
+    
+    //-----------attributes------------//
+    
     private String reviewId;
     private String productId;
     private String customerId;
     private int rating;
     private String comment;
+    
+    private static Scanner input = new Scanner(System.in);
 
-    // Constructors
+    //-----------constructors------------//
+    
     public Review() {
+        
         this.reviewId = "";
         this.productId = "";
         this.customerId = "";
@@ -17,48 +24,23 @@ public class Review {
     }
 
     public Review(String reviewId, String productId, String customerId, int rating, String comment) {
+        
         this.reviewId = reviewId;
         this.productId = productId;
         this.customerId = customerId;
         this.rating = rating;
         this.comment = comment;
     }
-
-    // Getters and Setters
-    public String getReviewId() { return reviewId; }
-    public void setReviewId(String reviewId) { this.reviewId = reviewId; }
-
-    public String getProductId() { return productId; }
-    public void setProductId(String productId) { this.productId = productId; }
-
-    public String getCustomerId() { return customerId; }
-    public void setCustomerId(String customerId) { this.customerId = customerId; }
-
-    public int getRating() { return rating; }
-    public void setRating(int rating) { this.rating = rating; }
-
-    public String getComment() { return comment; }
-    public void setComment(String comment) { this.comment = comment; }
-
-    @Override
-    public String toString() {
-        return "\nReview ID: " + reviewId +
-               ", Product ID: " + productId +
-               ", Customer ID: " + customerId +
-               ", Rating: " + rating +
-               ", Comment: " + comment;
-    }
-
-    // Data Management Section
-    private static Scanner input = new Scanner(System.in);
-    private static LinkedList<Review> reviews = new LinkedList<>();
+    
+    //-----------methods------------//
 
     // Add Review
-    public static void addReview(String customerId, String productId) {
+    public static void addReview(LinkedList<Review>reviews,String customerId, String productId) {
+        
         System.out.print("Enter Review ID: ");
         String rId = input.nextLine();
 
-        while (checkReviewID(rId)) {
+        while (checkReviewID(reviews,rId)) {
             System.out.print("ID already exists! Enter another: ");
             rId = input.nextLine();
         }
@@ -81,8 +63,9 @@ public class Review {
     }
 
     // Update Review
-    public static void updateReview() {
-        if (reviews.empty()) {
+    public static void updateReview(LinkedList<Review>reviews) {
+        
+        if (reviews.isEmpty()) {
             System.out.println(" No reviews available!");
             return;
         }
@@ -140,8 +123,9 @@ public class Review {
     }
 
     // Check Review ID
-    public static boolean checkReviewID(String id) {
-        if (reviews.empty()) return false;
+    public static boolean checkReviewID(LinkedList<Review>reviews,String id) {
+        
+        if (reviews.isEmpty()) return false;
 
         reviews.findFirst();
         while (true) {
@@ -155,8 +139,9 @@ public class Review {
 
    
     // Get Average Rating for a Product
-    public static double getAverageRatingForProduct(String productId) {
-        if (reviews.empty()) {
+    public static double getAverageRatingForProduct(LinkedList<Review>reviews,String productId) {
+        
+        if (reviews.isEmpty()) {
             return 0.0;
         }
 
@@ -183,167 +168,207 @@ public class Review {
         return average;
     }
 
-    // Accessor for list
-    public static LinkedList<Review> getReviewsList() {
-        return reviews;
-    }
+    public static void showCommonHighRatedProducts(LinkedList<Review>reviews) {
+        
+        if (reviews.isEmpty()) {
+            System.out.println("No reviews available!");
+            return;
+        }
 
-    public static void setReviewsList(LinkedList<Review> listFromCSV) {
-        reviews = listFromCSV;
-    }
+        System.out.print("Enter first customer ID: ");
+        String customer1 = input.nextLine();
 
+        System.out.print("Enter second customer ID: ");
+        String customer2 = input.nextLine();
 
+        LinkedList<String> products1 = new LinkedList<>();
+        LinkedList<String> products2 = new LinkedList<>();
 
-
-    public static void showCommonHighRatedProducts() {
-    if (reviews.empty()) {
-        System.out.println(" No reviews available!");
-        return;
-    }
-
-    System.out.print("Enter first customer ID: ");
-    String customer1 = input.nextLine();
-
-    System.out.print("Enter second customer ID: ");
-    String customer2 = input.nextLine();
-
-    LinkedList<String> products1 = new LinkedList<>();
-    LinkedList<String> products2 = new LinkedList<>();
-
-    reviews.findFirst();
-    while (true) {
-        Review r = reviews.retrieve();
-        if (r.getRating() >= 4) {
-            if (r.getCustomerId().equals(customer1)) {
-                products1.insert(r.getProductId());
-            } else if (r.getCustomerId().equals(customer2)) {
-                products2.insert(r.getProductId());
+        reviews.findFirst();
+        while (true) {
+            Review r = reviews.retrieve();
+            if (r.getRating() >= 4) {
+                if (r.getCustomerId().equals(customer1)) {
+                    products1.insert(r.getProductId());
+                } else if (r.getCustomerId().equals(customer2)) {
+                    products2.insert(r.getProductId());
             }
         }
 
         if (reviews.last()) break;
-        reviews.findNext();
-    }
+            reviews.findNext();
+        }
 
-    LinkedList<String> common = new LinkedList<>();
-    Node<String> p1 = products1.getHead();
+        LinkedList<String> common = new LinkedList<>();
+        
+        Node<String> p1 = products1.getHead();
 
-    while (p1 != null) {
-        Node<String> p2 = products2.getHead();
-        while (p2 != null) {
-            if (p1.data.equals(p2.data)) {
-                common.insert(p1.data);
-                break;
+        while (p1 != null) {
+            Node<String> p2 = products2.getHead();
+            while (p2 != null) {
+                if (p1.data.equals(p2.data)) {
+                    common.insert(p1.data);
+                    break;
+                }
+                p2 = p2.next;
             }
-            p2 = p2.next;
-        }
-        p1 = p1.next;
-    }
-
-    if (common.empty()) {
-        System.out.println("No common products rated 4 or more between these customers.");
-    } else {
-        System.out.println(" Common products rated 4 or more:");
-        Node<String> current = common.getHead();
-        while (current != null) {
-            System.out.println("Product ID: " + current.data);
-            current = current.next;
-        }
-    }
-}
-
-
-
-
-public static void showReviewsByCustomer() {
-    if (reviews.empty()) {
-        System.out.println("No reviews available!");
-        return;
-    }
-
-    System.out.print("Enter Customer ID: ");
-    String customerId = input.nextLine();
-
-    boolean found = false;
-
-    reviews.findFirst();
-    while (true) {
-        Review r = reviews.retrieve();
-        if (r.getCustomerId().equals(customerId)) {
-            System.out.println(r);
-            found = true;
+            p1 = p1.next;
         }
 
-        if (reviews.last()) break;
-        reviews.findNext();
+        if (common.isEmpty()) {
+            System.out.println("No common products rated 4 or more between these customers.");
+        } else {
+            System.out.println("Common products rated 4 or more:");
+            Node<String> current = common.getHead();
+            while (current != null) {
+                System.out.println("Product ID: " + current.data);
+                current = current.next;
+            }
+        }
     }
 
-    if (!found) {
-        System.out.println("No reviews found for customer ID: " + customerId);
+    public static void showReviewsByCustomer(LinkedList<Review>reviews) {
+        
+        if (reviews.isEmpty()) {
+            System.out.println("No reviews available!");
+            return;
+        }
+
+        System.out.print("Enter Customer ID: ");
+        String customerId = input.nextLine();
+
+        boolean found = false;
+
+        reviews.findFirst();
+        while (true) {
+            Review r = reviews.retrieve();
+            if (r.getCustomerId().equals(customerId)) {
+                System.out.println(r);
+                found = true;
+            }
+
+            if (reviews.last()) break;
+            reviews.findNext();
+        }
+
+        if (!found) {
+            System.out.println("No reviews found for customer ID: " + customerId);
+        }
     }
-}
 
+    public static void showTop3Products(LinkedList<Review>reviews,LinkedList<Product> products) {
+        
+        if (products.isEmpty() || reviews.isEmpty()) {
+            System.out.println(" No products or reviews available!");
+            return;
+        }
 
+        LinkedList<Product> sortedList = new LinkedList<>();
+        LinkedList<Double> avgRatings = new LinkedList<>();
 
-
- public static void showTop3Products(LinkedList<Product> products) {
-    if (products.empty() || reviews.empty()) {
-        System.out.println(" No products or reviews available!");
-        return;
-    }
-
-    LinkedList<Product> sortedList = new LinkedList<>();
-    LinkedList<Double> avgRatings = new LinkedList<>();
-
-    Node<Product> pNode = products.getHead();
-    while (pNode != null) {
-        Product p = pNode.data;
-        double avg = getAverageRatingForProduct(p.getProductId());
+        Node<Product> pNode = products.getHead();
+        while (pNode != null) {
+            Product p = pNode.data;
+            double avg = getAverageRatingForProduct(reviews,p.getProductId());
             if (avg > 0) {
-        sortedList.insert(p);
-        avgRatings.insert(avg);
-        }
-        pNode = pNode.next;
-    }
-
-    Node<Product> iP = sortedList.getHead();
-    Node<Double> iR = avgRatings.getHead();
-    while (iP != null) {
-        Node<Product> jP = iP.next;
-        Node<Double> jR = iR.next;
-        while (jP != null) {
-            if (iR.data < jR.data) {
-                Double tempR = iR.data;
-                iR.data = jR.data;
-                jR.data = tempR;
-
-                Product tempP = iP.data;
-                iP.data = jP.data;
-                jP.data = tempP;
+                sortedList.insert(p);
+                avgRatings.insert(avg);
             }
-            jP = jP.next;
-            jR = jR.next;
+            pNode = pNode.next;
         }
-        iP = iP.next;
-        iR = iR.next;
-    }
 
-    System.out.println("Top 3 Products by Average Rating:");
-    Node<Product> node = sortedList.getHead();
-    Node<Double> rateNode = avgRatings.getHead();
-    int count = 0;
+        Node<Product> iP = sortedList.getHead();
+        Node<Double> iR = avgRatings.getHead();
+        while (iP != null) {
+            Node<Product> jP = iP.next;
+            Node<Double> jR = iR.next;
+            while (jP != null) {
+                if (iR.data < jR.data) {
+                    Double tempR = iR.data;
+                    iR.data = jR.data;
+                    jR.data = tempR;
 
-    while (node != null && count < 3) {
-        System.out.println((count + 1) + ". " + node.data.getName() +
+                    Product tempP = iP.data;
+                    iP.data = jP.data;
+                    jP.data = tempP;
+                }
+                jP = jP.next;
+                jR = jR.next;
+            }
+            iP = iP.next;
+            iR = iR.next;
+        }
+
+        System.out.println("Top 3 Products by Average Rating:");
+        Node<Product> node = sortedList.getHead();
+        Node<Double> rateNode = avgRatings.getHead();
+        int count = 0;
+
+        while (node != null && count < 3) {
+            System.out.println((count + 1) + ". " + node.data.getName() +
                 " | Avg Rating: " + String.format("%.2f", rateNode.data));
-        node = node.next;
-        rateNode = rateNode.next;
-        count++;
-    }
+            node = node.next;
+            rateNode = rateNode.next;
+            count++;
+        }
 
-    if (count == 0) {
-        System.out.println("No products with reviews found.");
+        if (count == 0) {
+            System.out.println("No products with reviews found.");
+        }
     }
-}
+    
+    //----------- Setters ------------//
+    
+    public void setReviewId(String reviewId) { 
+        this.reviewId = reviewId; 
+    }
+   
+    public void setProductId(String productId) { 
+        this.productId = productId; 
+    }
+    
+    public void setCustomerId(String customerId) { 
+        this.customerId = customerId; 
+    }
+    
+    public void setComment(String comment) { 
+        this.comment = comment; 
+    }
+    
+    public void setRating(int rating) { 
+        this.rating = rating; 
+    }
+   
+   //----------- Getters ------------//
+   
+    public String getReviewId() { 
+        return reviewId; 
+    }
+   
+    public String getProductId() { 
+        return productId; 
+    }
+   
+    public String getCustomerId() { 
+        return customerId; 
+    }
+   
+    public int getRating() { 
+        return rating; 
+    }
+   
+    public String getComment() { 
+        return comment; 
+    }
+    
+
+    @Override
+    public String toString() {
+        return "\nReview ID: " + reviewId +
+               ", Product ID: " + productId +
+               ", Customer ID: " + customerId +
+               ", Rating: " + rating +
+               ", Comment: " + comment;
+    }
 
 }
