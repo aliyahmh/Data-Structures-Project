@@ -1,4 +1,4 @@
-public class LinkedList<T>{
+public class LinkedList<T> {
     // class Linked List
     private Node<T> head;
     private Node<T> current;
@@ -8,29 +8,32 @@ public class LinkedList<T>{
         head = current = null;
         size = 0 ;
     }
-    public boolean empty () {
-        return head == null;
-    }
-    public int size ()
-    {
+    
+    
+    public int size (){
         return size;
     }
     
     public boolean last () {
         return current.next == null;
     }
+    
     public boolean full () {
             return false;
     }
+    
     public void findFirst () {
             current = head;
     }
+    
     public void findNext () {
             current = current.next;
     }
+    
     public T retrieve () {
             return current.data;
     }
+    
     public void update (T val) {
             current.data = val;
     }
@@ -42,9 +45,10 @@ public class LinkedList<T>{
     public boolean isEmpty() {
         return head == null;
     }
+    
     public void insert (T val) {
             Node<T> tmp;
-            if (empty()) {
+            if (isEmpty()) {
                     current = head  = new Node<T> (val);
             }
             else {
@@ -76,8 +80,8 @@ public class LinkedList<T>{
                     current = current.next;
             size --;
     }
-    public void print()
-    {
+    
+    public void print() {
         if ( head == null)
             System.out.println("Empty data");
         else
