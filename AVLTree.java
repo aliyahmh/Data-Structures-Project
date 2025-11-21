@@ -1,6 +1,4 @@
 
-package com.mycompany.datastructureproject;
-
 import java.util.Comparator;
 
 public class AVLTree<T> {
@@ -8,12 +6,13 @@ public class AVLTree<T> {
     private AVLNode<T> root;
     private Comparator<T> comparator;
 
+    // Constructor - requires a comparator
     public AVLTree(Comparator<T> comparator) {
         this.comparator = comparator;
         this.root = null;
     }
 
-    // ... (keep all your existing AVLTree methods but make them use the comparator)
+    //========== UTILITY METHODS ==========//
     
     // Helper to get the height of a node (or 0 for null)
     private int height(AVLNode<T> node) {
@@ -30,6 +29,8 @@ public class AVLTree<T> {
         return (node == null) ? 0 : height(node.left) - height(node.right);
     }
 
+    //========== ROTATION METHODS ==========//
+    
     // Right rotation
     private AVLNode<T> rightRotate(AVLNode<T> y) {
         AVLNode<T> x = y.left;
@@ -62,27 +63,36 @@ public class AVLTree<T> {
         return y;
     }
 
-    // Public insert method
+    //========== INSERT METHODS ==========//
+    
+    // Public insert method - O(log n)
     public void insert(T key) {
         root = insert(root, key);
     }
 
     // Private recursive insert
     private AVLNode<T> insert(AVLNode<T> node, T key) {
+        // 1. Standard BST insertion
         if (node == null) {
             return new AVLNode<>(key);
         }
 
+        // Use comparator to compare keys
         if (comparator.compare(key, node.key) < 0) {
             node.left = insert(node.left, key);
         } else if (comparator.compare(key, node.key) > 0) {
             node.right = insert(node.right, key);
         } else {
-            return node; // Duplicate not allowed
+            return node; // Duplicate keys not allowed
         }
 
+        // 2. Update height of this ancestor node
         node.height = 1 + max(height(node.left), height(node.right));
+
+        // 3. Get the balance factor
         int balance = getBalance(node);
+
+        // 4. If node becomes unbalanced, there are 4 cases:
 
         // Left Left Case
         if (balance > 1 && comparator.compare(key, node.left.key) < 0) {
@@ -106,10 +116,13 @@ public class AVLTree<T> {
             return leftRotate(node);
         }
 
+        // Return the (unchanged) node pointer
         return node;
     }
 
-    // Search method
+    //========== SEARCH METHODS ==========//
+    
+    // Search for a key - O(log n)
     public T search(T key) {
         return search(root, key);
     }
@@ -118,8 +131,9 @@ public class AVLTree<T> {
         if (node == null) return null;
 
         int comparison = comparator.compare(key, node.key);
+        
         if (comparison == 0) {
-            return node.key;
+            return node.key; // Found
         } else if (comparison < 0) {
             return search(node.left, key);
         } else {
@@ -127,14 +141,18 @@ public class AVLTree<T> {
         }
     }
 
-    // Remove method
+    //========== REMOVE METHODS ==========//
+    
+    // Public remove method - O(log n)
     public boolean remove(T key) {
         if (search(key) == null) return false;
         root = remove(root, key);
         return true;
     }
     
+    // Private recursive remove
     private AVLNode<T> remove(AVLNode<T> node, T key) {
+        // 1. Standard BST deletion
         if (node == null) return null;
         
         int comparison = comparator.compare(key, node.key);
@@ -144,26 +162,43 @@ public class AVLTree<T> {
         } else if (comparison > 0) {
             node.right = remove(node.right, key);
         } else {
+            // Node to be deleted found
+            
+            // Case 1: Node with only one child or no child
             if (node.left == null || node.right == null) {
                 AVLNode<T> temp = (node.left != null) ? node.left : node.right;
+                
                 if (temp == null) {
+                    // No child case
                     node = null;
                 } else {
+                    // One child case
                     node = temp;
                 }
             } else {
+                // Case 2: Node with two children
+                // Get the inorder successor (smallest in the right subtree)
                 AVLNode<T> temp = minValueNode(node.right);
+                
+                // Copy the inorder successor's content to this node
                 node.key = temp.key;
+                
+                // Delete the inorder successor
                 node.right = remove(node.right, temp.key);
             }
         }
         
+        // If the tree had only one node, return
         if (node == null) return null;
         
+        // 2. Update height of current node
         node.height = 1 + max(height(node.left), height(node.right));
+        
+        // 3. Balance the node
         return balance(node);
     }
     
+    // Helper to find node with minimum value
     private AVLNode<T> minValueNode(AVLNode<T> node) {
         AVLNode<T> current = node;
         while (current.left != null) {
@@ -172,27 +207,38 @@ public class AVLTree<T> {
         return current;
     }
     
+    // Balance a node after insertion/deletion
     private AVLNode<T> balance(AVLNode<T> node) {
         int balance = getBalance(node);
         
+        // Left Left Case
         if (balance > 1 && getBalance(node.left) >= 0) {
             return rightRotate(node);
         }
+        
+        // Left Right Case
         if (balance > 1 && getBalance(node.left) < 0) {
             node.left = leftRotate(node.left);
             return rightRotate(node);
         }
+        
+        // Right Right Case
         if (balance < -1 && getBalance(node.right) <= 0) {
             return leftRotate(node);
         }
+        
+        // Right Left Case
         if (balance < -1 && getBalance(node.right) > 0) {
             node.right = rightRotate(node.right);
             return leftRotate(node);
         }
+        
         return node;
     }
 
-    // In-order traversal
+    //========== TRAVERSAL METHODS ==========//
+    
+    // In-order traversal - returns LinkedList with sorted elements - O(n)
     public LinkedList<T> inOrderTraversal() {
         LinkedList<T> result = new LinkedList<>();
         inOrderTraversal(root, result);
@@ -206,8 +252,40 @@ public class AVLTree<T> {
             inOrderTraversal(node.right, result);
         }
     }
+    
+    // Pre-order traversal - O(n)
+    public LinkedList<T> preOrderTraversal() {
+        LinkedList<T> result = new LinkedList<>();
+        preOrderTraversal(root, result);
+        return result;
+    }
+    
+    private void preOrderTraversal(AVLNode<T> node, LinkedList<T> result) {
+        if (node != null) {
+            result.insert(node.key);
+            preOrderTraversal(node.left, result);
+            preOrderTraversal(node.right, result);
+        }
+    }
+    
+    // Post-order traversal - O(n)
+    public LinkedList<T> postOrderTraversal() {
+        LinkedList<T> result = new LinkedList<>();
+        postOrderTraversal(root, result);
+        return result;
+    }
+    
+    private void postOrderTraversal(AVLNode<T> node, LinkedList<T> result) {
+        if (node != null) {
+            postOrderTraversal(node.left, result);
+            postOrderTraversal(node.right, result);
+            result.insert(node.key);
+        }
+    }
 
-    // Range query
+    //========== RANGE QUERY METHOD ==========//
+    
+    // Range query - returns all elements between min and max - O(n)
     public LinkedList<T> rangeQuery(T min, T max) {
         LinkedList<T> result = new LinkedList<>();
         rangeQuery(root, min, max, result);
@@ -220,21 +298,30 @@ public class AVLTree<T> {
         int compMin = comparator.compare(min, node.key);
         int compMax = comparator.compare(max, node.key);
 
+        // If current node is greater than min, go left
+        if (compMin <= 0) {
+            rangeQuery(node.left, min, max, result);
+        }
+        
+        // If current node is within range, add it
         if (compMin <= 0 && compMax >= 0) {
-            rangeQuery(node.left, min, max, result);
             result.insert(node.key);
+        }
+        
+        // If current node is less than max, go right
+        if (compMax >= 0) {
             rangeQuery(node.right, min, max, result);
-        } else if (compMin > 0) {
-            rangeQuery(node.right, min, max, result);
-        } else {
-            rangeQuery(node.left, min, max, result);
         }
     }
 
+    //========== UTILITY CHECKING METHODS ==========//
+    
+    // Check if tree is empty
     public boolean isEmpty() {
         return root == null;
     }
     
+    // Get size of tree - O(n)
     public int size() {
         return size(root);
     }
@@ -243,4 +330,37 @@ public class AVLTree<T> {
         if (node == null) return 0;
         return 1 + size(node.left) + size(node.right);
     }
-}
+    
+    // Get height of tree
+    public int getHeight() {
+        return height(root);
+    }
+    
+    // Clear the entire tree
+    public void clear() {
+        root = null;
+    }
+    
+    // Check if tree contains a key
+    public boolean contains(T key) {
+        return search(key) != null;
+    }
+    
+    // Get minimum value in tree
+    public T findMin() {
+        if (root == null) return null;
+        AVLNode<T> node = minValueNode(root);
+        return node.key;
+    }
+    
+    // Get maximum value in tree
+    public T findMax() {
+        if (root == null) return null;
+        AVLNode<T> current = root;
+        while (current.right != null) {
+            current = current.right;
+        }
+        return current.key;
+    }
+    
+  }
