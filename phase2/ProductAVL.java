@@ -35,7 +35,7 @@ public class ProductAVL {
         Product p = new Product(id, name, price, stock);
         products.insert(p); // O(log n)
 
-        System.out.println("✓ Product added successfully!");
+        System.out.println("Product added successfully!");
     }
 
     public void removeProduct() {
@@ -49,9 +49,9 @@ public class ProductAVL {
 
         Product temp = new Product(id, "", 0, 0);
         if (products.remove(temp)) { // O(log n)
-            System.out.println("✓ Product removed successfully!");
+            System.out.println("Product removed successfully!");
         } else {
-            System.out.println("✗ Product not found!");
+            System.out.println("Product not found!");
         }
     }
 
@@ -67,7 +67,7 @@ public class ProductAVL {
 
         Product p = searchById(id); // O(log n)
         if (p == null) {
-            System.out.println("✗ Product not found!");
+            System.out.println("Product not found!");
             return;
         }
 
@@ -85,29 +85,29 @@ public class ProductAVL {
             case 1:
                 System.out.print("Enter new name: ");
                 p.setName(input.nextLine());
-                System.out.println("✓ Product name updated!");
+                System.out.println("Product name updated!");
                 break;
             case 2:
                 System.out.print("Enter new price: ");
                 p.setPrice(input.nextDouble());
                 input.nextLine();
-                System.out.println("✓ Product price updated!");
+                System.out.println("Product price updated!");
                 break;
             case 3:
                 System.out.print("Enter new stock: ");
                 p.setStock(input.nextInt());
                 input.nextLine();
-                System.out.println("✓ Product stock updated!");
+                System.out.println("Product stock updated!");
                 break;
             case 4:
                 System.out.print("Enter quantity to add: ");
                 int quantity = input.nextInt();
                 input.nextLine();
                 p.addStock(quantity);
-                System.out.println("✓ Stock added! New stock: " + p.getStock());
+                System.out.println("Stock added! New stock: " + p.getStock());
                 break;
             default:
-                System.out.println("✗ Invalid choice!");
+                System.out.println("Invalid choice!");
         }
     }
 
@@ -119,10 +119,10 @@ public class ProductAVL {
         
         Product p = searchByName(name);
         if (p != null) {
-            System.out.println("\n✓ Product Found:");
+            System.out.println("\nProduct Found:");
             System.out.println(p);
         } else {
-            System.out.println("✗ Product not found!");
+            System.out.println("Product not found!");
         }
     }
     
@@ -149,10 +149,10 @@ public class ProductAVL {
         
         Product p = searchById(id);
         if (p != null) {
-            System.out.println("\n✓ Product Found:");
+            System.out.println("\nProduct Found:");
             System.out.println(p);
         } else {
-            System.out.println("✗ Product not found!");
+            System.out.println("Product not found!");
         }
     }
     
@@ -223,7 +223,7 @@ public class ProductAVL {
         }
 
         if (!found) {
-            System.out.println("✓ All products are in stock!");
+            System.out.println("All products are in stock!");
         }
     }
 
