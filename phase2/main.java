@@ -2,26 +2,21 @@ import java.util.Scanner;
 
 public class main {
 
-    private static ProductAVL productManager;
-    private static CustomerAVL customerManager;
-    private static OrderAVL orderManager;
-    private static ReviewAVL reviewsManager;
-    
     private static Scanner input = new Scanner(System.in);
-    
-    public static void main(String[] args) {
-        
-        // Initialize managers
-        productManager = new ProductAVL();
-        customerManager = new CustomerAVL();
-        orderManager = new OrderAVL();
-        reviewsManager = new ReviewAVL();
 
-        
+    public static void main(String[] args) {
+
+        // Loading data from CSV into AVL trees
+        ProductAVL products = new ProductAVL();
+        CustomerAVL customers = new CustomerAVL();
+        OrderAVL orders = new OrderAVL();
+        ReviewAVL reviews = new ReviewAVL();
+
+        System.out.println("=== Loading data into AVL trees ===");
 
         int choice;
         do {
-            System.out.println("==========================");
+            System.out.println("\n==========================");
             System.out.println("         MAIN MENU");
             System.out.println("==========================");
             System.out.println("1. Products");
@@ -35,85 +30,92 @@ public class main {
 
             switch (choice) {
                 case 1:
-                    productMenu();
+                    productsMenu(products);
                     break;
+
                 case 2:
-                    customersMenu();
+                    customersMenu(customers, products, orders);
                     break;
+
                 case 3:
-                    ordersMenu();
+                    ordersMenu(products, orders);
                     break;
+
                 case 4:
-                    reviewsMenu();
+                    reviewsMenu(products, reviews);
                     break;
+
                 case 5:
-                    System.out.println("\n✓ Thank you for using the system!");
+                    System.out.println("Exiting... Goodbye!");
                     break;
+
                 default:
-                    System.out.println("✗ Invalid choice!");
+                    System.out.println("Invalid choice! Try again.");
             }
         } while (choice != 5);
     }
 
-    // ------------------ PRODUCTS MENU ------------------//
+    // ------------------ PRODUCTS MENU ------------------
     
-    public static void productMenu() {
+    public static void productsMenu(ProductAVL products) {
         int choice;
         do {
             System.out.println("\n===== PRODUCTS MENU =====");
-            System.out.println("1. Add Product");
-            System.out.println("2. Update Product");
-            System.out.println("3. Remove Product");
-            System.out.println("4. Search Product by ID");
-            System.out.println("5. Search Product by Name");
-            System.out.println("6. Display All Products");
-            System.out.println("7. Show Out of Stock Products");
-            System.out.println("8. Show the Top 3 Most Reviewed");
-            System.out.println("9. Back to Main Menu");
+            System.out.println("1. Add new product");
+            System.out.println("2. Remove product");
+            System.out.println("3. Update product");
+            System.out.println("4. Search by ID");
+            System.out.println("5. Search by Name");
+            System.out.println("6. Show Out-of-Stock Products");
+            System.out.println("7. Show All Products");
+            System.out.println("8. Back to Main Menu");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
-            
+
             switch (choice) {
-                case 1:
-                    productManager.addProduct();
+                case 1: 
+                    products.addProduct();
                     break;
-                case 2:
-                    productManager.updateProduct();
+
+                case 2: 
+                    products.removeProduct();
                     break;
-                case 3:
-                    productManager.removeProduct();
+
+                case 3: 
+                    products.updateProduct();
                     break;
+                    
                 case 4:
-                    productManager.searchProductById();
+                    products.searchProductById();
                     break;
+
                 case 5:
-                    productManager.searchProductByName();
+                    products.searchProductByName();
                     break;
-                case 6:
-                    productManager.displayAllProducts();
+
+                case 6: 
+                    products.showOutOfStock();
                     break;
+                    
                 case 7:
-                    productManager.showOutOfStock();
+                    products.displayAllProducts();
                     break;
-                case 8:
-                    productManager.showTop3MostReviewed();
+                    
+                case 8: 
+                    System.out.println("Returning to main menu..."); 
                     break;
-                case 9:
-                    System.out.println("Returning to main menu...");
-                    break;
-                default:
-                    System.out.println("✗ Invalid choice!");
+                
+                default: 
+                    System.out.println("Invalid choice!");
             }
-        } while (choice != 9);
+            
+        } while (choice != 8);
     }
     
-    // ------------------ CUSTOMERS MENU ------------------//
-    public static void customersMenu() {
+    // ------------------ CUSTOMERS MENU ------------------
+    public static void customersMenu(CustomerAVL customers, ProductAVL products, OrderAVL orders) {
         int choice;
-        Scanner input = new Scanner(System.in);
-        Customer helper = new Customer(); 
-    
         do {
             System.out.println("\n===== CUSTOMERS MENU =====");
             System.out.println("1. Register New Customer");
@@ -126,31 +128,29 @@ public class main {
 
             switch (choice) {
                 case 1: 
-                
                     break;
 
                 case 2: 
-            
+                    
+                    // Check if customer exists using AVL
+                   
                     break;
                 
                 case 3: 
-                    
                     break;
                     
                 case 4:
-                
-                System.out.println("Returning to main menu...");
-                break;
+                    System.out.println("Returning to main menu...");
+                    break;
 
-            default:
-                
-                System.out.println("Invalid choice!");
+                default:
+                    System.out.println("Invalid choice!");
             }
         } while (choice != 4);
     }
 
-    // ------------------ ORDERS MENU ------------------//
-    public static void ordersMenu() {
+    // ------------------ ORDERS MENU ------------------
+    public static void ordersMenu(ProductAVL products, OrderAVL orders) {
         int choice;
         do {
             System.out.println("\n===== ORDERS MENU =====");
@@ -167,27 +167,29 @@ public class main {
 
             switch (choice) {
                 case 1:
-                    
+                    System.out.print("Enter Customer ID for new order: ");
+                    String customerId = input.nextLine();
+                    orders.createOrder(products, customerId);
                     break;
 
                 case 2:
-                    
+                    orders.cancelOrder(products);
                     break;
 
                 case 3:
-                    
+                    orders.updateOrderStatus();
                     break;
 
                 case 4:
-                    
+                    orders.searchOrderByIdInteractive();
                     break;
 
                 case 5:
-                    
+                    orders.searchOrdersByDateRange();
                     break;
 
                 case 6:
-                    
+                    orders.displayAllOrders();
                     break;
 
                 case 7:
@@ -200,19 +202,17 @@ public class main {
         } while (choice != 7);
     }
 
-
     // ------------------ REVIEWS MENU ------------------
-    public static void reviewsMenu() {
-        
+    public static void reviewsMenu(ProductAVL products, ReviewAVL reviews) {
         int choice;
         do {
             System.out.println("\n===== REVIEWS MENU =====");
             System.out.println("1. Add Review");
-            System.out.println("2. Update Review");
+            System.out.println("2. Search Review by ID");
             System.out.println("3. Show Reviews by Customer");
             System.out.println("4. Get Average Rating For a Product");
             System.out.println("5. Show Top 3 Products");
-            System.out.println("6. Common High Rated Products (2 Customers)");
+            System.out.println("6. Show Reviews for a Product");
             System.out.println("7. Back to Main Menu");
             System.out.print("Enter your choice: ");
             choice = input.nextInt();
@@ -220,45 +220,36 @@ public class main {
 
             switch (choice) {
                 case 1:
-                    
-                    
+                    reviews.addReview();
                     break;
                     
                 case 2: 
-                    
-                    
+                    reviews.searchReview();
                     break;
                     
                 case 3:
-                    
-                    
+                    reviews.showCustomerReviews();
                     break;
 
                 case 4:
-                    
-                    
-                break;
+                    reviews.showAverageRating();
+                    break;
 
                 case 5:
-                    
-                    
+                    reviews.showTop3Products();
                     break;
                  
                 case 6:
-                    
-                    
+                    reviews.showProductReviews();
                     break;
                  
                 case 7:
-                    
                     System.out.println("Returning to main menu...");
                     break;
                     
                 default:
-                    
                     System.out.println("Invalid choice!");
             }
         } while (choice != 7);
     }
-    
 }

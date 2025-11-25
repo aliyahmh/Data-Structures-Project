@@ -6,6 +6,7 @@ public class CustomerAVL {
     private AVLTree<Customer> customers = CSVReader.readCustomersAVL("datasets/customers.csv");
     private Scanner input = new Scanner(System.in);
 
+
     // ---------- Add Customer (O(log n)) ----------
     public void addCustomer() {
         System.out.print("Enter Customer ID: ");
