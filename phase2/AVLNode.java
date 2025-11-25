@@ -1,6 +1,4 @@
 
-package com.mycompany.datastructureproject;
-
 
 public class AVLNode<T> {
     T key;

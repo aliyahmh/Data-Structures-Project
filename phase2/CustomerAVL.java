@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class CustomerAVL {
 
     // ---------- Attributes ----------
-    private AVLTree<Customer> customers = CSVReader.readCustomers("customers.csv");
+    private AVLTree<Customer> customers = CSVReader.readCustomersAVL("datasets/customers.csv");
     private Scanner input = new Scanner(System.in);
 
     // ---------- Add Customer (O(log n)) ----------

@@ -1,4 +1,4 @@
-package com.mycompany.datastructureproject;
+
 
 import java.util.Comparator;
 import java.util.Scanner;
@@ -6,7 +6,7 @@ import java.util.Scanner;
 public class ProductAVL {
     
     //-----------attributes------------//
-    private AVLTree<Product> products = CSVReader.readProducts("prodcuts.csv");
+    private AVLTree<Product> products = CSVReader.readProductsAVL("datasets/prodcuts.csv");
     private Scanner input = new Scanner(System.in);
     
     //----------- Methods ------------//
@@ -156,7 +156,7 @@ public class ProductAVL {
         }
     }
     
-    private Product searchById(String id) {
+    public Product searchById(String id) {
         Product temp = new Product(id, "", 0, 0);
         return products.search(temp); // O(log n)
     }

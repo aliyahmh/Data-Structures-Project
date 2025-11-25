@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class DataStructureProject {
+public class main {
 
     private static ProductAVL productManager;
     private static CustomerAVL customerManager;
     private static OrderAVL orderManager;
-    private static ReviewsAVL reviewsManager;
+    private static ReviewAVL reviewsManager;
     
     private static Scanner input = new Scanner(System.in);
     
@@ -15,7 +15,7 @@ public class DataStructureProject {
         productManager = new ProductAVL();
         customerManager = new CustomerAVL();
         orderManager = new OrderAVL();
-        reviewsManager = new ReviewsAVL();
+        reviewsManager = new ReviewAVL();
 
         
 
@@ -38,13 +38,13 @@ public class DataStructureProject {
                     productMenu();
                     break;
                 case 2:
-                    customerMenu();
+                    customersMenu();
                     break;
                 case 3:
-                    orderMenu();
+                    ordersMenu();
                     break;
                 case 4:
-                    advancedQueriesMenu();
+                    reviewsMenu();
                     break;
                 case 5:
                     System.out.println("\n✓ Thank you for using the system!");

@@ -1,10 +1,10 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Comparator;
 
 public class CSVReader {
      
-    
     //-------------------Product Reader-------------------//
     
     public static LinkedList<Product> readProducts(String filename) {
@@ -70,7 +70,6 @@ public class CSVReader {
     
     //-------------------Orders Reader-------------------//
     
-    
     public static LinkedList<Order> readOrders(String filename) {
         LinkedList<Order> orders = new LinkedList<>();
         
@@ -112,7 +111,6 @@ public class CSVReader {
     
     //-------------------Reviews Reader-------------------//
     
-    
     public static LinkedList<Review> readReviews(String filename) {
         LinkedList<Review> reviews = new LinkedList<>();
         
@@ -141,6 +139,72 @@ public class CSVReader {
             System.out.println("Error reading reviews file: " + e.getMessage());
         }
         
+        return reviews;
+    }
+    
+    //-------------------AVL Tree Methods-------------------//
+    
+    public static AVLTree<Product> readProductsAVL(String filename) {
+        AVLTree<Product> products = new AVLTree<>(Comparator.comparing(Product::getProductId));
+        LinkedList<Product> productList = readProducts(filename);
+        
+        // Convert LinkedList to AVLTree
+        if (!productList.isEmpty()) {
+            productList.findFirst();
+            while (true) {
+                products.insert(productList.retrieve());
+                if (productList.last()) break;
+                productList.findNext();
+            }
+        }
+        return products;
+    }
+    
+    public static AVLTree<Customer> readCustomersAVL(String filename) {
+        AVLTree<Customer> customers = new AVLTree<>(Comparator.comparing(Customer::getCustomerId));
+        LinkedList<Customer> customerList = readCustomers(filename);
+        
+        // Convert LinkedList to AVLTree
+        if (!customerList.isEmpty()) {
+            customerList.findFirst();
+            while (true) {
+                customers.insert(customerList.retrieve());
+                if (customerList.last()) break;
+                customerList.findNext();
+            }
+        }
+        return customers;
+    }
+    
+    public static AVLTree<Order> readOrdersAVL(String filename) {
+        AVLTree<Order> orders = new AVLTree<>(Comparator.comparing(Order::getOrderID));
+        LinkedList<Order> orderList = readOrders(filename);
+        
+        // Convert LinkedList to AVLTree
+        if (!orderList.isEmpty()) {
+            orderList.findFirst();
+            while (true) {
+                orders.insert(orderList.retrieve());
+                if (orderList.last()) break;
+                orderList.findNext();
+            }
+        }
+        return orders;
+    }
+    
+    public static AVLTree<Review> readReviewsAVL(String filename) {
+        AVLTree<Review> reviews = new AVLTree<>(Comparator.comparing(Review::getReviewId));
+        LinkedList<Review> reviewList = readReviews(filename);
+        
+        // Convert LinkedList to AVLTree
+        if (!reviewList.isEmpty()) {
+            reviewList.findFirst();
+            while (true) {
+                reviews.insert(reviewList.retrieve());
+                if (reviewList.last()) break;
+                reviewList.findNext();
+            }
+        }
         return reviews;
     }
 }

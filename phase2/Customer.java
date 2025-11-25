@@ -40,6 +40,23 @@ public LinkedList<Order> getOrdersList() {
     }
 
 
+   public void viewOrdersHistory(){
+       Node <Order> order = ordersList.getHead(); 
+       if (order == null){
+           System.out.println("No Orders found for customer "+this.name);
+           return;
+       }
+       while (order != null){
+           Order o = order.data;
+           System.out.println("Order ID: " + o.getOrderID() +
+                               " | Status: " + o.getStatus() +
+                               " | Date: " + o.getOrderDate() +
+                               " | Total: " + o.getTotalPrice());
+           order = order.next;
+       }
+   }
+
+
    //----------- Setters ------------//
     
    public void setCustomerId(String id){
