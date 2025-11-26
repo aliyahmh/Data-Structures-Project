@@ -7,14 +7,38 @@ public class CustomerAVL {
     private Scanner input = new Scanner(System.in);
 
 
+public boolean checkCustomerId(String id) {
+        Customer temp = new Customer(id, "", "");
+        return customers.search(temp) != null;
+    }
+   
+
+    // ***** Find customer by ID for order operations *****
+    public Customer findCustomerForOrder(String customerId) {
+        Customer temp = new Customer(customerId, "", "");
+        return customers.search(temp);
+    }
+
+    // ***** Place order for specific customer *****
+    public void placeOrderForCustomer(String customerId, Order order) {
+        Customer customer = findCustomerForOrder(customerId);
+        if (customer != null) {
+            customer.placeOrder(order);
+            System.out.println("Order placed successfully for customer: " + customer.getName());
+        } else {
+            System.out.println("Customer not found! Please register first.");
+        }
+    }
+}
+
+
     // ---------- Add Customer (O(log n)) ----------
     public void addCustomer() {
         System.out.print("Enter Customer ID: ");
         String id = input.nextLine();
 
         // check duplicate
-        Customer temp = new Customer(id, "", "");
-        if (customers.search(temp) != null) {
+        if (checkCustomerId(id)) {
             System.out.println("Customer ID already exists!");
             return;
         }
@@ -27,7 +51,6 @@ public class CustomerAVL {
 
         Customer c = new Customer(id, name, email);
         customers.insert(c);
-
         System.out.println("Customer added successfully!");
     }
 
