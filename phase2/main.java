@@ -1,16 +1,19 @@
 import java.util.Scanner;
 
-public class main {
+public class main2 {
 
     private static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
 
+       
+
+
         // Loading data from CSV into AVL trees
-        ProductAVL products = new ProductAVL();
-        CustomerAVL customers = new CustomerAVL();
-        OrderAVL orders = new OrderAVL();
-        ReviewAVL reviews = new ReviewAVL();
+         ProductAVL products = new ProductAVL("prodcuts.csv");        
+    CustomerAVL customers = new CustomerAVL("customers.csv");    
+    OrderAVL orders = new OrderAVL("orders.csv");                
+    ReviewAVL reviews = new ReviewAVL("reviews.csv");
 
         System.out.println("=== Loading data into AVL trees ===");
 

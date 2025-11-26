@@ -11,6 +11,9 @@ public class OrderAVL {
     private AVLTree<Order> orders = CSVReader.readOrdersAVL("datasets/orders.csv");
     private Scanner input = new Scanner(System.in);
     
+    public OrderAVL(String filename) {
+        this.orders = CSVReader.readOrdersAVL(filename);
+    }
     //----------- Methods ------------//
 
     //*************** CRUD Operations ***************//

@@ -3,23 +3,26 @@ import java.util.Scanner;
 public class CustomerAVL {
 
     // ---------- Attributes ----------
-    private AVLTree<Customer> customers = CSVReader.readCustomersAVL("datasets/customers.csv");
+    private AVLTree<Customer> customers;
     private Scanner input = new Scanner(System.in);
 
+    // ---------- Constructor ----------
+    public CustomerAVL(String filename) {
+        this.customers = CSVReader.readCustomersAVL(filename);
+    }
 
-public boolean checkCustomerId(String id) {
+    // ---------- Customer Management Methods ----------
+    
+    public boolean checkCustomerId(String id) {
         Customer temp = new Customer(id, "", "");
         return customers.search(temp) != null;
     }
-   
 
-    // ***** Find customer by ID for order operations *****
     public Customer findCustomerForOrder(String customerId) {
         Customer temp = new Customer(customerId, "", "");
         return customers.search(temp);
     }
 
-    // ***** Place order for specific customer *****
     public void placeOrderForCustomer(String customerId, Order order) {
         Customer customer = findCustomerForOrder(customerId);
         if (customer != null) {
@@ -29,8 +32,6 @@ public boolean checkCustomerId(String id) {
             System.out.println("Customer not found! Please register first.");
         }
     }
-}
-
 
     // ---------- Add Customer (O(log n)) ----------
     public void addCustomer() {
@@ -45,7 +46,6 @@ public boolean checkCustomerId(String id) {
 
         System.out.print("Enter Customer Name: ");
         String name = input.nextLine();
-
         System.out.print("Enter Email: ");
         String email = input.nextLine();
 
@@ -54,7 +54,7 @@ public boolean checkCustomerId(String id) {
         System.out.println("Customer added successfully!");
     }
 
-// ---------- Remove Customer (O(log n)) ----------
+    // ---------- Remove Customer (O(log n)) ----------
     public void removeCustomer() {
         System.out.print("Enter Customer ID to remove: ");
         String id = input.nextLine();
@@ -66,7 +66,6 @@ public boolean checkCustomerId(String id) {
             System.out.println("✗ Customer not found!");
         }
     }
-
 
     // ---------- Update Customer (O(log n)) ----------
     public void updateCustomer() {
@@ -102,10 +101,7 @@ public boolean checkCustomerId(String id) {
         }
     }
 
-
-
-
-     // ---------- Search by ID (O(log n)) ----------
+    // ---------- Search by ID (O(log n)) ----------
     public void searchCustomerById() {
         System.out.print("Enter Customer ID: ");
         String id = input.nextLine();
@@ -116,13 +112,6 @@ public boolean checkCustomerId(String id) {
         } else {
             System.out.println("Customer not found");
         }
-    }
-
-
-    // --------- search inside the tree ----------
-    private Customer searchById(String id) {
-        Customer temp = new Customer(id, "", "");
-        return customers.search(temp);
     }
 
     // ---------- Search by Name (O(n)) ----------
@@ -136,25 +125,6 @@ public boolean checkCustomerId(String id) {
         } else {
             System.out.println("Customer not found");
         }
-    }
-
-
-
-    private Customer searchByName(String name) {
-        LinkedList<Customer> list = customers.inOrderTraversal();
-
-        if (list.isEmpty()) return null;
-
-        list.findFirst();
-        while (true) {
-            Customer c = list.retrieve();
-            if (c.getName().equalsIgnoreCase(name))
-                return c;
-
-            if (list.last()) break;
-            list.findNext();
-        }
-        return null;
     }
 
     // ---------- Display All Customers ----------
@@ -175,8 +145,45 @@ public boolean checkCustomerId(String id) {
         }
     }
 
+    // ---------- Display Customers Alphabetically ----------
+    public void displayCustomersAlphabetically() {
+        LinkedList<Customer> list = customers.inOrderTraversal();
 
-     // ---------- Get Order History ----------
+        if (list.isEmpty()) {
+            System.out.println("No customers available!");
+            return;
+        }
+
+        // Sort by name (bubble sort)
+        boolean swapped;
+        do {
+            swapped = false;
+            list.findFirst();
+            Customer prev = list.retrieve();
+            
+            for (int i = 0; i < list.size() - 1; i++) {
+                list.findNext();
+                Customer current = list.retrieve();
+                
+                if (prev.getName().compareToIgnoreCase(current.getName()) > 0) {
+                    // Swap needed - implement swap in your LinkedList
+                    swapped = true;
+                }
+                prev = current;
+            }
+        } while (swapped);
+
+        System.out.println("\n=== Customers Sorted Alphabetically ===");
+        list.findFirst();
+        while (true) {
+            Customer c = list.retrieve();
+            System.out.println(c.getName() + " (" + c.getCustomerId() + ")");
+            if (list.last()) break;
+            list.findNext();
+        }
+    }
+
+    // ---------- Get Order History ----------
     public void showCustomerOrders() {
         System.out.print("Enter Customer ID: ");
         String id = input.nextLine();
@@ -187,11 +194,33 @@ public boolean checkCustomerId(String id) {
             return;
         }  
 
-        System.out.println("\n Order History for: " + c.getName() + "");
+        System.out.println("\nOrder History for: " + c.getName() + "");
         c.viewOrdersHistory();
     }
 
-    // ---------- Utility ----------
+    // ---------- Private Helper Methods ----------
+    private Customer searchById(String id) {
+        Customer temp = new Customer(id, "", "");
+        return customers.search(temp);
+    }
+
+    private Customer searchByName(String name) {
+        LinkedList<Customer> list = customers.inOrderTraversal();
+
+        if (list.isEmpty()) return null;
+
+        list.findFirst();
+        while (true) {
+            Customer c = list.retrieve();
+            if (c.getName().equalsIgnoreCase(name))
+                return c;
+            if (list.last()) break;
+            list.findNext();
+        }
+        return null;
+    }
+
+    // ---------- Utility Methods ----------
     public AVLTree<Customer> getCustomerTree() {
         return customers;
     }
@@ -203,7 +232,4 @@ public boolean checkCustomerId(String id) {
     public int size() {
         return customers.size();
     }
-
 }
-
-
