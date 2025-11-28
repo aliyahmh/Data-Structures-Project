@@ -364,9 +364,9 @@ public class OrderAVL {
             return;
         }
         
-        System.out.println("┌─────┬────────────┬────────────┬──────────┬────────────┬───────────┬─────────┐");
+System.out.println("=========================================================");
         System.out.println("│ No. │ Order ID   │ Customer ID│ Total    │ Date       │ Status    │ Products│");
-        System.out.println("├─────┼────────────┼────────────┼──────────┼────────────┼───────────┼─────────┤");
+System.out.println("=========================================================");
         
         int count = 0;
         orderList.findFirst();
@@ -387,9 +387,9 @@ public class OrderAVL {
     }
     
     private void displayOrderDetails(Order order) {
-        System.out.println("┌─────────────────────────────────────────────────────────┐");
+System.out.println("=========================================================");
         System.out.println("│                       ORDER DETAILS                     │");
-        System.out.println("├─────────────────────────────────────────────────────────┤");
+System.out.println("=========================================================");
         System.out.printf("│ Order ID:    %-40s │\n", order.getOrderID());
         System.out.printf("│ Customer ID: %-40s │\n", order.getCustomerID());
         System.out.printf("│ Total Price: $%-38.2f │\n", order.getTotalPrice());

@@ -247,9 +247,9 @@ public void displayProductTable(LinkedList<Product> productList, String title) {
         return;
     }
     
-    System.out.println("┌─────┬────────────┬────────────────────┬──────────┬───────┬─────────┬───────────┐");
+System.out.println("=========================================================");
     System.out.println("│ No. │ Product ID │ Name               │ Price    │ Stock │ Reviews │ Avg Rating│");
-    System.out.println("├─────┼────────────┼────────────────────┼──────────┼───────┼─────────┼───────────┤");
+System.out.println("=========================================================");
     
     int count = 0;
     productList.findFirst();
@@ -266,7 +266,7 @@ public void displayProductTable(LinkedList<Product> productList, String title) {
         productList.findNext();
     }
     
-    System.out.println("└─────┴────────────┴────────────────────┴──────────┴───────┴─────────┴───────────┘");
+System.out.println("=========================================================");
     System.out.println("\nTotal: " + count + " products");
 }
 
