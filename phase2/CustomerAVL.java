@@ -6,11 +6,6 @@ public class CustomerAVL {
     private AVLTree<Customer> customers;
     private Scanner input = new Scanner(System.in);
 
-    // ---------- Constructor ----------
-    public CustomerAVL(String filename) {
-        this.customers = CSVReader.readCustomersAVL(filename);
-    }
-
     // ---------- Customer Management Methods ----------
     
     public boolean checkCustomerId(String id) {

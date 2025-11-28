@@ -1,4 +1,4 @@
-public class Customer {
+/*public class Customer {
     
     //-----------attributes------------//
     
@@ -25,7 +25,6 @@ public class Customer {
    
    //-----------methods------------//
    
-   //*****register customer*****//
    
    public void registerCustomer (Customer c, LinkedList<Customer> customers){
        customers.insert(c);
@@ -43,7 +42,6 @@ public class Customer {
 }
 
    
-   //*****Place new order for customer*****//
    
    public void placeOrder (Order order){
        if(order != null && order.getCustomerID().equals(this.customerid)) {
@@ -52,8 +50,6 @@ public class Customer {
             System.out.println("Order does not belong to this customer.");
        }
    }
-   
-   //*****View order history*****//
    
    public void viewOrdersHistory(){
        Node <Order> order = ordersList.getHead(); 
@@ -112,3 +108,4 @@ public class Customer {
 
 
 
+*/

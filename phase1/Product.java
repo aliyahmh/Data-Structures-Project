@@ -1,4 +1,4 @@
-import java.util.Scanner;
+/*import java.util.Scanner;
 
 public class Product {
 
@@ -32,7 +32,6 @@ public class Product {
     
     //-----------methods------------//
    
-    //*****Reviews Operations*****//
     
     //---------add new riv-----
     public void addReview(Review r) {
@@ -65,7 +64,6 @@ public class Product {
         System.out.println("Product added successfully!");
     }
 
-    // *********************************************************
     
     public static void removeProduct(LinkedList<Product>products) {
         if (products.isEmpty()) {
@@ -91,7 +89,6 @@ public class Product {
         System.out.println("Product not found!");
     }
 
-    // *********************************************************
 
     public static void updateProduct(LinkedList<Product>products) {
         if (products.isEmpty()) {
@@ -283,3 +280,4 @@ public class Product {
     }
 
 }
+*/

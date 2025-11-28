@@ -1,6 +1,9 @@
 
 
 import java.time.LocalDate;
+
+
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.Scanner;
@@ -11,9 +14,6 @@ public class OrderAVL {
     private AVLTree<Order> orders = CSVReader.readOrdersAVL("datasets/orders.csv");
     private Scanner input = new Scanner(System.in);
     
-    public OrderAVL(String filename) {
-        this.orders = CSVReader.readOrdersAVL(filename);
-    }
     //----------- Methods ------------//
 
     //*************** CRUD Operations ***************//
@@ -364,9 +364,9 @@ public class OrderAVL {
             return;
         }
         
-System.out.println("=========================================================");
+        System.out.println("┌─────┬────────────┬────────────┬──────────┬────────────┬───────────┬─────────┐");
         System.out.println("│ No. │ Order ID   │ Customer ID│ Total    │ Date       │ Status    │ Products│");
-System.out.println("=========================================================");
+        System.out.println("├─────┼────────────┼────────────┼──────────┼────────────┼───────────┼─────────┤");
         
         int count = 0;
         orderList.findFirst();
@@ -387,9 +387,9 @@ System.out.println("=========================================================");
     }
     
     private void displayOrderDetails(Order order) {
-System.out.println("=========================================================");
+        System.out.println("┌─────────────────────────────────────────────────────────┐");
         System.out.println("│                       ORDER DETAILS                     │");
-System.out.println("=========================================================");
+        System.out.println("├─────────────────────────────────────────────────────────┤");
         System.out.printf("│ Order ID:    %-40s │\n", order.getOrderID());
         System.out.printf("│ Customer ID: %-40s │\n", order.getCustomerID());
         System.out.printf("│ Total Price: $%-38.2f │\n", order.getTotalPrice());
