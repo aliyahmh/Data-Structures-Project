@@ -112,41 +112,84 @@ public class main {
             
         } while (choice != 8);
     }
-    
+
     // ------------------ CUSTOMERS MENU ------------------
     public static void customersMenu(CustomerAVL customers, ProductAVL products, OrderAVL orders) {
         int choice;
         do {
             System.out.println("\n===== CUSTOMERS MENU =====");
-            System.out.println("1. Register New Customer");
-            System.out.println("2. Place Order");
-            System.out.println("3. View Order History");
-            System.out.println("4. Back to Main Menu");
-            System.out.print("Enter your choice: ");
+        System.out.println("1. Register New Customer");
+        System.out.println("2. Search Customer by ID");
+        System.out.println("3. Search Customer by Name");
+        System.out.println("4. Update Customer");
+        System.out.println("5. Remove Customer");
+        System.out.println("6. Place Order");
+        System.out.println("7. View Order History");
+        System.out.println("8. Display All Customers (by ID)");
+        System.out.println("9. Display Customers Alphabetically");
+        System.out.println("10. Back to Main Menu");
+        System.out.print("Enter your choice: ");
             choice = input.nextInt();
             input.nextLine();
 
             switch (choice) {
                 case 1: 
+                customers.addCustomer();
                     break;
 
                 case 2: 
-                    
-                    // Check if customer exists using AVL
-                   
+                 customers.searchCustomerById();                   
                     break;
                 
                 case 3: 
+                customers.searchCustomerByName();
                     break;
                     
                 case 4:
-                    System.out.println("Returning to main menu...");
+                customers.updateCustomer();
                     break;
+
+                      case 5:
+                customers.removeCustomer();
+                break;
+
+                 case 6: 
+                // Place Order
+                System.out.print("Enter Customer ID: ");
+                String customerId = input.nextLine();
+                
+                // Check if customer exists
+                if (!customers.checkCustomerId(customerId)) {
+                    System.out.println("Customer not found! Please register first.");
+                } else {
+                    // Create order using OrderAVL
+                    Order newOrder = orders.createOrder(products, customerId);
+                    if (newOrder != null) {
+                        customers.placeOrderForCustomer(customerId, newOrder);
+                    }
+                }
+                break;
+
+                 case 7: 
+                customers.showCustomerOrders();
+                break;
+                
+            case 8:
+                customers.displayAllCustomers();
+                break;
+                
+            case 9:
+                customers.displayCustomersAlphabetically();
+                break;
+                    
+            case 10:
+                System.out.println("Returning to main menu...");
+                break;
 
                 default:
                     System.out.println("Invalid choice!");
             }
-        } while (choice != 4);
+        } while (choice != 10);
     }
 
     // ------------------ ORDERS MENU ------------------
@@ -253,3 +296,4 @@ public class main {
         } while (choice != 7);
     }
 }
+

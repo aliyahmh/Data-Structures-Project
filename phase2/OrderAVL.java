@@ -17,72 +17,73 @@ public class OrderAVL {
     //----------- Methods ------------//
 
     //*************** CRUD Operations ***************//
+    public Order createOrder(ProductAVL products, String customerId) {
+    System.out.print("Enter Order ID: ");
+    String orderId = input.nextLine();
     
-    public void createOrder(ProductAVL products, String customerId) {
-        System.out.print("Enter Order ID: ");
-        String orderId = input.nextLine();
-        
-        // Check if order ID already exists - O(log n)
-        if (searchById(orderId) != null) {
-            System.out.println("Order ID already exists!");
-            return;
-        }
-        
-        System.out.print("Enter Order Date (YYYY-MM-DD): ");
-        String orderDate = input.nextLine();
-        
-        // Select products 
-        LinkedList<String> selectedProductIds = new LinkedList<>();
-        double totalPrice = 0.0;
-        
-        boolean addingProducts = true;
-        while (addingProducts) {
-            System.out.print("Enter Product ID to add to order (or 'done' to finish): ");
-            String productId = input.nextLine();
-            
-            if ("done".equalsIgnoreCase(productId)) {
-                addingProducts = false;
-                continue;
-            }
-            
-            Product product = products.searchById(productId);
-            if (product == null) {
-                System.out.println("Product not found!");
-                continue;
-            }
-            
-            if (product.isOutOfStock()) {
-                System.out.println("Product is out of stock!");
-                continue;
-            }
-            
-            // Add product and update stock
-            selectedProductIds.insert(productId);
-            totalPrice += product.getPrice();
-            product.reduceStock(1); // Decrease stock by 1
-            
-            System.out.println("Product added: " + product.getName() + " - $" + product.getPrice());
-            System.out.print("Continue adding products? (yes/no): ");
-            String continueAdding = input.nextLine();
-            if ("no".equalsIgnoreCase(continueAdding)) {
-                addingProducts = false;
-            }
-        }
-        
-        if (selectedProductIds.isEmpty()) {
-            System.out.println("No products selected. Order creation cancelled.");
-            return;
-        }
-        
-        // Create new order
-        Order newOrder = new Order(orderId, customerId, selectedProductIds, totalPrice, orderDate, "Pending");
-        orders.insert(newOrder); // O(log n)
-        
-        System.out.println("Order created successfully!");
-        System.out.println("Order ID: " + orderId);
-        System.out.println("Total Price: $" + totalPrice);
-        System.out.println("Status: Pending");
+    // Check if order ID already exists - O(log n)
+    if (searchById(orderId) != null) {
+        System.out.println("Order ID already exists!");
+        return null;
     }
+    
+    System.out.print("Enter Order Date (YYYY-MM-DD): ");
+    String orderDate = input.nextLine();
+    
+    // Select products 
+    LinkedList<String> selectedProductIds = new LinkedList<>();
+    double totalPrice = 0.0;
+    
+    boolean addingProducts = true;
+    while (addingProducts) {
+        System.out.print("Enter Product ID to add to order (or 'done' to finish): ");
+        String productId = input.nextLine();
+        
+        if ("done".equalsIgnoreCase(productId)) {
+            addingProducts = false;
+            continue;
+        }
+        
+        Product product = products.searchById(productId);
+        if (product == null) {
+            System.out.println("Product not found!");
+            continue;
+        }
+        
+        if (product.isOutOfStock()) {
+            System.out.println("Product is out of stock!");
+            continue;
+        }
+        
+        // Add product and update stock
+        selectedProductIds.insert(productId);
+        totalPrice += product.getPrice();
+        product.reduceStock(1); // Decrease stock by 1
+        
+        System.out.println("Product added: " + product.getName() + " - $" + product.getPrice());
+        System.out.print("Continue adding products? (yes/no): ");
+        String continueAdding = input.nextLine();
+        if ("no".equalsIgnoreCase(continueAdding)) {
+            addingProducts = false;
+        }
+    }
+    
+    if (selectedProductIds.isEmpty()) {
+        System.out.println("No products selected. Order creation cancelled.");
+        return null;
+    }
+    
+    // Create new order
+    Order newOrder = new Order(orderId, customerId, selectedProductIds, totalPrice, orderDate, "Pending");
+    orders.insert(newOrder); // O(log n)
+    
+    System.out.println("Order created successfully!");
+    System.out.println("Order ID: " + orderId);
+    System.out.println("Total Price: $" + totalPrice);
+    System.out.println("Status: Pending");
+    
+    return newOrder; // Return the created order
+}
 
     public void cancelOrder(ProductAVL products) {
         System.out.print("Enter Order ID to cancel: ");
