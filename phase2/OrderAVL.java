@@ -154,7 +154,7 @@ public class OrderAVL {
 
     //*************** Search Operations ***************//
     
-    public void searchOrderByIdInteractive() {
+    public void searchOrderById() {
         System.out.print("Enter Order ID: ");
         String orderId = input.nextLine();
         

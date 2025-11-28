@@ -135,8 +135,8 @@ public class Order {
         return orderID.equals(order.orderID);
     }
     
-    @Override
+    /*@Override
     public int hashCode() {
         return orderID.hashCode();
-    }
+    }*/
 }

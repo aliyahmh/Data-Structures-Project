@@ -224,7 +224,7 @@ public class main {
                     break;
 
                 case 4:
-                    orders.searchOrderByIdInteractive();
+                    orders.searchOrderById();
                     break;
 
                 case 5:
