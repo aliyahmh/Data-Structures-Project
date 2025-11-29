@@ -1,5 +1,3 @@
-
-
 import java.time.LocalDate;
 
 
@@ -11,7 +9,7 @@ import java.util.Scanner;
 public class OrderAVL {
     
     //-----------attributes------------//
-    private AVLTree<Order> orders = CSVReader.readOrdersAVL("datasets/orders.csv");
+    private AVLTree<Order> orders = CSVReader.readOrdersAVL("orders.csv");
     private Scanner input = new Scanner(System.in);
     
     //----------- Methods ------------//
@@ -173,22 +171,20 @@ public class OrderAVL {
         return orders.search(temp); // O(log n)
     }
     
-    public void searchOrdersByCustomerId() {
-        System.out.print("Enter Customer ID: ");
-        String customerId = input.nextLine();
+    public void searchOrdersByCustomerId(String id) {
         
-        LinkedList<Order> customerOrders = getOrdersByCustomerId(customerId);
+        LinkedList<Order> customerOrders = getOrdersByCustomerId(id);
         
         if (customerOrders.isEmpty()) {
-            System.out.println("No orders found for customer: " + customerId);
+            System.out.println("No orders found for customer: " + id);
             return;
         }
         
-        System.out.println("\n=== Orders for Customer " + customerId + " ===");
+        System.out.println("\n=== Orders for Customer " + id + " ===");
         displayOrderTable(customerOrders, "Customer Orders");
     }
     
-    private LinkedList<Order> getOrdersByCustomerId(String customerId) {
+    public LinkedList<Order> getOrdersByCustomerId(String customerId) {
         LinkedList<Order> result = new LinkedList<>();
         LinkedList<Order> allOrders = orders.inOrderTraversal();
         
@@ -391,20 +387,20 @@ public class OrderAVL {
         System.out.println("┌─────────────────────────────────────────────────────────┐");
         System.out.println("│                       ORDER DETAILS                     │");
         System.out.println("├─────────────────────────────────────────────────────────┤");
-        System.out.printf("│ Order ID:    %-40s │\n", order.getOrderID());
-        System.out.printf("│ Customer ID: %-40s │\n", order.getCustomerID());
-        System.out.printf("│ Total Price: $%-38.2f │\n", order.getTotalPrice());
-        System.out.printf("│ Date:        %-40s │\n", order.getOrderDate());
-        System.out.printf("│ Status:      %-40s │\n", order.getStatus());
-        System.out.printf("│ Products:    %-40d │\n", order.getProductCount());
+        System.out.printf("│ Order ID:    %-40s   │\n", order.getOrderID());
+        System.out.printf("│ Customer ID: %-40s   │\n", order.getCustomerID());
+        System.out.printf("│ Total Price: $%-38.2f    │\n", order.getTotalPrice());
+        System.out.printf("│ Date:        %-40s   │\n", order.getOrderDate());
+        System.out.printf("│ Status:      %-40s   │\n", order.getStatus());
+        System.out.printf("│ Products:    %-40d   │\n", order.getProductCount());
         System.out.println("├─────────────────────────────────────────────────────────┤");
         
         // Display products in this order
         if (!order.getProductIDs().isEmpty()) {
-            System.out.println("│ Products in this order:                              │");
+            System.out.println("│ Products in this order:                                 │");
             order.getProductIDs().findFirst();
             while (true) {
-                System.out.printf("│   - %-45s │\n", order.getProductIDs().retrieve());
+                System.out.printf("│   - %-45s       │\n", order.getProductIDs().retrieve());
                 if (order.getProductIDs().last()) break;
                 order.getProductIDs().findNext();
             }
