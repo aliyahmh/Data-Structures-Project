@@ -125,57 +125,39 @@ public class CustomerAVL {
     // ---------- Display All Customers ----------
     public void displayAllCustomers() {
         LinkedList<Customer> list = customers.inOrderTraversal();
+        if (list.isEmpty()) {
+            System.out.println("No customers available!");
+            return;
+        }
+        displayCustomerTable(list, "All Customers (Sorted by ID)");
+    }
+
+
+    // ---------- Display Customers Alphabetically ----------
+    public void displayCustomersAlphabetically() {
+        LinkedList<Customer> list = customers.inOrderTraversal();
 
         if (list.isEmpty()) {
             System.out.println("No customers available!");
             return;
         }
 
-        System.out.println("\n=== All Customers (Sorted by ID) ===");
+        AVLTree<Customer> nameAVL = new AVLTree<>(
+            (c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName())
+        );
+
         list.findFirst();
         while (true) {
-            System.out.println(list.retrieve());
+            nameAVL.insert(list.retrieve());
             if (list.last()) break;
             list.findNext();
         }
+
+        LinkedList<Customer> sortedByName = nameAVL.inOrderTraversal();
+
+        displayCustomerTable(sortedByName, "Customers Sorted Alphabetically");
     }
 
-    // ---------- Display Customers Alphabetically ----------
-    public void displayCustomersAlphabetically() {
-    // Step 1: retrieve all customers in ID order
-    LinkedList<Customer> list = customers.inOrderTraversal();
-
-    if (list.isEmpty()) {
-        System.out.println("No customers available!");
-        return;
-    }
-
-    // Step 2: Create a temporary AVL tree sorted by name
-    AVLTree<Customer> nameAVL = new AVLTree<>(
-        (c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName())   // comparator by NAME
-    );
-
-    // Step 3: Insert all customers into the name-based AVL tree
-    list.findFirst();
-    while (true) {
-        nameAVL.insert(list.retrieve());
-        if (list.last()) break;
-        list.findNext();
-    }
-
-    // Step 4: In-order traversal of nameAVL gives alphabetical output
-    LinkedList<Customer> sortedByName = nameAVL.inOrderTraversal();
-
-    System.out.println("\n=== Customers Sorted Alphabetically ===");
-    sortedByName.findFirst();
-    while (true) {
-        Customer c = sortedByName.retrieve();
-        System.out.println(c.getName() + " (" + c.getCustomerId() + ")");
-
-        if (sortedByName.last()) break;
-        sortedByName.findNext();
-    }
-}
 
 
     // ---------- Get Order History ----------
@@ -227,4 +209,43 @@ public class CustomerAVL {
     public int size() {
         return customers.size();
     }
+    
+    private String truncate(String text, int maxLength) {
+        if (text == null) return "";
+        return text.length() > maxLength ? text.substring(0, maxLength - 3) + "..." : text;
+    }
+    
+    public void displayCustomerTable(LinkedList<Customer> customerList, String title) {
+    if (customerList.isEmpty()) {
+        System.out.println("No customers to display.");
+        return;
+    }
+
+    System.out.println("\n=== " + title + " ===");
+    System.out.println("┌─────┬────────────┬──────────────────────────┬──────────────────────────┐");
+    System.out.println("│ No. │ CustomerID │ Name                     │ Email                    │");
+    System.out.println("├─────┼────────────┼──────────────────────────┼──────────────────────────┤");
+
+    int count = 0;
+    customerList.findFirst();
+    while (true) {
+        count++;
+        Customer c = customerList.retrieve();
+
+        System.out.printf("│ %-3d │ %-10s │ %-24s │ %-24s │\n",
+                count,
+                c.getCustomerId(),
+                truncate(c.getName(), 24),
+                truncate(c.getEmail(), 24)
+        );
+
+        if (customerList.last()) break;
+        customerList.findNext();
+    }
+
+    System.out.println("└─────┴────────────┴──────────────────────────┴──────────────────────────┘");
+    System.out.println("Total: " + count + " customers\n");
+}
+
+
 }
