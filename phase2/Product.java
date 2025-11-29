@@ -1,5 +1,3 @@
-
-
 import java.util.Comparator;
 
 
@@ -12,7 +10,8 @@ public class Product {
     private int stock;
     
     // Reviews stored in AVL Tree
-    private AVLTree<Review> reviews;
+    private LinkedList<Review> reviews;
+    private ReviewAVL revavl = new ReviewAVL();
 
     //-----------constructors------------//
     public Product() {
@@ -20,7 +19,7 @@ public class Product {
         this.name = "";
         this.price = 0.0;
         this.stock = 0;
-        this.reviews = new AVLTree<>(Comparator.comparing(Review::getReviewId));
+        this.reviews = new LinkedList<>();
     }
 
     public Product(String productId, String name, double price, int stock) {
@@ -28,7 +27,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.reviews = new AVLTree<>(Comparator.comparing(Review::getReviewId));
+        this.reviews = revavl.getReviewsByProduct(productId);
     }
 
     //-----------Business Logic Methods------------//
@@ -45,7 +44,7 @@ public class Product {
     
   
     public LinkedList<Review> getReviewsList() {
-        return reviews.inOrderTraversal();
+        return reviews;
     }
   
     public double getAverageRating() {
@@ -53,17 +52,17 @@ public class Product {
             return 0.0;
         }
         
-        LinkedList<Review> reviewList = reviews.inOrderTraversal();
+        
         double sum = 0;
         int count = 0;
         
-        reviewList.findFirst();
+        reviews.findFirst();
         while (true) {
-            Review r = reviewList.retrieve();
+            Review r = reviews.retrieve();
             sum += r.getRating();
             count++;
-            if (reviewList.last()) break;
-            reviewList.findNext();
+            if (reviews.last()) break;
+            reviews.findNext();
         }
         
         return count > 0 ? sum / count : 0.0;
@@ -126,9 +125,6 @@ public class Product {
         return stock;
     }
 
-    public AVLTree<Review> getReviews() {
-        return reviews;
-    }
 
     @Override
     public String toString() {
@@ -153,16 +149,3 @@ public class Product {
         return productId.hashCode();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
