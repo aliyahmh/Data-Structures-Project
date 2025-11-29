@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class OrderAVL {
     
     //-----------attributes------------//
-    private AVLTree<Order> orders = CSVReader.readOrdersAVL("orders.csv");
+    private AVLTree<Order> orders = CSVReader.readOrdersAVL("datasets/orders.csv");
     private Scanner input = new Scanner(System.in);
     
     //----------- Methods ------------//

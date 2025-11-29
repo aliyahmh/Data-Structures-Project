@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class ProductAVL {
     
     //-----------attributes------------//
-    private AVLTree<Product> products = CSVReader.readProductsAVL("prodcuts.csv");
+    private AVLTree<Product> products = CSVReader.readProductsAVL("datasets/prodcuts.csv");
     private Scanner input = new Scanner(System.in);
     
     //----------- Methods ------------//
@@ -292,3 +292,4 @@ private String truncate(String text, int maxLength) {
         return products.inOrderTraversal();
     }
     
+}
