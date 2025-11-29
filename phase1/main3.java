@@ -1,4 +1,4 @@
-/*import java.util.Scanner;
+import java.util.Scanner;
 
 public class main3 {
 
@@ -357,4 +357,3 @@ public class main3 {
         } while (choice != 7);
     }
 }
-*/
