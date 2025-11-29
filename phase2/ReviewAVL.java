@@ -1,7 +1,4 @@
 
-package com.mycompany.datastructureproject;
-
-
 import java.util.Scanner;
 
 import java.util.Comparator;
