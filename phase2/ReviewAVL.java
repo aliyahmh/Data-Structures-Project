@@ -4,7 +4,7 @@ import java.util.Comparator;
 
 
 public class ReviewAVL {
-    private AVLTree<Review> reviews = CSVReader.readReviewsAVL("datasets/reviews.csv");
+    private AVLTree<Review> reviews = CSVReader.readReviewsAVL("reviews.csv");
     private Scanner input = new Scanner(System.in);
 
     // 1. Add a new review
