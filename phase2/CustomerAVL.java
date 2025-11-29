@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class CustomerAVL {
 
     // ---------- Attributes ----------
-    private AVLTree<Customer> customers;
+    private AVLTree<Customer> customers = CSVReader.readCustomersAVL("customers.csv");
     private Scanner input = new Scanner(System.in);
 
     // ---------- Customer Management Methods ----------
@@ -142,41 +142,41 @@ public class CustomerAVL {
 
     // ---------- Display Customers Alphabetically ----------
     public void displayCustomersAlphabetically() {
-        LinkedList<Customer> list = customers.inOrderTraversal();
+    // Step 1: retrieve all customers in ID order
+    LinkedList<Customer> list = customers.inOrderTraversal();
 
-        if (list.isEmpty()) {
-            System.out.println("No customers available!");
-            return;
-        }
-
-        // Sort by name (bubble sort)
-        boolean swapped;
-        do {
-            swapped = false;
-            list.findFirst();
-            Customer prev = list.retrieve();
-            
-            for (int i = 0; i < list.size() - 1; i++) {
-                list.findNext();
-                Customer current = list.retrieve();
-                
-                if (prev.getName().compareToIgnoreCase(current.getName()) > 0) {
-                    // Swap needed - implement swap in your LinkedList
-                    swapped = true;
-                }
-                prev = current;
-            }
-        } while (swapped);
-
-        System.out.println("\n=== Customers Sorted Alphabetically ===");
-        list.findFirst();
-        while (true) {
-            Customer c = list.retrieve();
-            System.out.println(c.getName() + " (" + c.getCustomerId() + ")");
-            if (list.last()) break;
-            list.findNext();
-        }
+    if (list.isEmpty()) {
+        System.out.println("No customers available!");
+        return;
     }
+
+    // Step 2: Create a temporary AVL tree sorted by name
+    AVLTree<Customer> nameAVL = new AVLTree<>(
+        (c1, c2) -> c1.getName().compareToIgnoreCase(c2.getName())   // comparator by NAME
+    );
+
+    // Step 3: Insert all customers into the name-based AVL tree
+    list.findFirst();
+    while (true) {
+        nameAVL.insert(list.retrieve());
+        if (list.last()) break;
+        list.findNext();
+    }
+
+    // Step 4: In-order traversal of nameAVL gives alphabetical output
+    LinkedList<Customer> sortedByName = nameAVL.inOrderTraversal();
+
+    System.out.println("\n=== Customers Sorted Alphabetically ===");
+    sortedByName.findFirst();
+    while (true) {
+        Customer c = sortedByName.retrieve();
+        System.out.println(c.getName() + " (" + c.getCustomerId() + ")");
+
+        if (sortedByName.last()) break;
+        sortedByName.findNext();
+    }
+}
+
 
     // ---------- Get Order History ----------
     public void showCustomerOrders() {
