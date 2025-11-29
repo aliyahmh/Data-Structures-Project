@@ -1,12 +1,10 @@
-
-
 import java.util.Comparator;
 import java.util.Scanner;
 
 public class ProductAVL {
     
     //-----------attributes------------//
-    private AVLTree<Product> products = CSVReader.readProductsAVL("datasets/prodcuts.csv");
+    private AVLTree<Product> products = CSVReader.readProductsAVL("prodcuts.csv");
     private Scanner input = new Scanner(System.in);
     
     //----------- Methods ------------//
@@ -247,9 +245,10 @@ public void displayProductTable(LinkedList<Product> productList, String title) {
         return;
     }
     
-System.out.println("=========================================================");
+    System.out.println("┌─────┬────────────┬────────────────────┬──────────┬───────┬─────────┬───────────┐");
     System.out.println("│ No. │ Product ID │ Name               │ Price    │ Stock │ Reviews │ Avg Rating│");
-System.out.println("=========================================================");
+    System.out.println("├─────┼────────────┼────────────────────┼──────────┼───────┼─────────┼───────────┤");
+    
     
     int count = 0;
     productList.findFirst();
@@ -266,7 +265,7 @@ System.out.println("=========================================================");
         productList.findNext();
     }
     
-System.out.println("=========================================================");
+    System.out.println("└─────┴────────────┴────────────────────┴────-─────┴───────┴─────────┴───────────┘");
     System.out.println("\nTotal: " + count + " products");
 }
 
@@ -358,4 +357,4 @@ private String truncate(String text, int maxLength) {
     public LinkedList<Product> getAllProducts() {
         return products.inOrderTraversal();
     }
-}
+    
