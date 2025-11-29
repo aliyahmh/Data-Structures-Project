@@ -1,3 +1,7 @@
+
+package com.mycompany.datastructureproject;
+
+
 import java.util.Scanner;
 
 import java.util.Comparator;
@@ -72,6 +76,8 @@ public class ReviewAVL {
     public void showProductReviews() {
         System.out.print("Enter Product ID: ");
         String productId = input.nextLine();
+        
+        
 
         LinkedList<Review> productReviews = getReviewsByProduct(productId);
         
@@ -182,7 +188,7 @@ public class ReviewAVL {
     }
 
     // Helper method: Get reviews for a product
-    private LinkedList<Review> getReviewsByProduct(String productId) {
+    public LinkedList<Review> getReviewsByProduct(String productId) {
         LinkedList<Review> result = new LinkedList<>();
         LinkedList<Review> allReviews = reviews.inOrderTraversal();
         
@@ -201,7 +207,7 @@ public class ReviewAVL {
     }
 
     // Helper method: Get reviews by a customer
-    private LinkedList<Review> getReviewsByCustomer(String customerId) {
+    public LinkedList<Review> getReviewsByCustomer(String customerId) {
         LinkedList<Review> result = new LinkedList<>();
         LinkedList<Review> allReviews = reviews.inOrderTraversal();
         
