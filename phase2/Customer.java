@@ -7,7 +7,7 @@ public class Customer {
     private String email;
     // Customer still stores his OWN orders as a linked list 
     private LinkedList<Order> ordersList ;
-    
+    private OrderAVL orderavl = new OrderAVL();
     //-----------constructors------------//
           
     public Customer(){
@@ -21,7 +21,7 @@ public class Customer {
        this.customerid = id;
        this.name = name;
        this.email = email;
-        this.ordersList  = new LinkedList<>();
+       this.ordersList  = orderavl.getOrdersByCustomerId(id);
    }
    
    
@@ -93,8 +93,3 @@ public LinkedList<Order> getOrdersList() {
     
    
 }
-
-
-
-
-
