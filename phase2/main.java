@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class main {
-
+    
     private static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -12,7 +12,7 @@ public class main {
         OrderAVL orders = new OrderAVL();
         ReviewAVL reviews = new ReviewAVL();
 
-        System.out.println("=== Loading data into AVL trees ===");
+        
 
         int choice;
         do {
@@ -223,7 +223,7 @@ public class main {
                     orders.updateOrderStatus();
                     break;
 
-                case 4:
+                case 4:         
                     orders.searchOrderById();
                     break;
 
@@ -295,5 +295,3 @@ public class main {
             }
         } while (choice != 7);
     }
-}
-
